@@ -1,4 +1,4 @@
-# DS2 META
+# DS2 META  
  Dark Souls 2 testing/debugging/practice tool  
  Based on a CE table by [Lord Radai](https://github.com/LordRadai)  
  
@@ -15,7 +15,7 @@ A
  Even actions not locked behind a setting are considered unsafe for online use.  
  YOU HAVE BEEN WARNED  
 
-## Requirements 
+## Requirements  
 * [.NET 4.7.2](https://www.microsoft.com/net/download/thank-you/net472)  
 
 ## Installing  
@@ -23,7 +23,8 @@ A
 
 ## Thank You  
 **[TKGP](https://github.com/JKAnderson/)** Author of [DS Gadget](https://github.com/JKAnderson/DS-Gadget) and [Property Hook](https://github.com/JKAnderson/PropertyHook)  
-**[Lord Radai](https://github.com/LordRadai)** Author of the CE table used for this tool and good mentor  
+**[Atvaark](https://github.com/Atvaark)** Author of the CE table used for this tool  
+**[Lord Radai](https://github.com/LordRadai)** good mentor and contributor  
 **[pseudostripy](https://github.com/pseudostripy)** Tester and contributor   
 
 ## Libraries  
@@ -31,7 +32,7 @@ A
 
 [Costura](https://github.com/Fody/Costura) by [Fody](https://github.com/Fody) team  
 
-[Octokit](https://github.com/octokit/octokit.net) by [Octokit](https://github.com/octokit) team
+[Octokit](https://github.com/octokit/octokit.net) by [Octokit](https://github.com/octokit) team  
 
 [LowLevelHooking](https://github.com/jnm2/LowLevelHooking) by [Joseph Musser](https://github.com/jnm2)  
 

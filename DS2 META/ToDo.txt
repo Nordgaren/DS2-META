@@ -1,0 +1,4 @@
+﻿Future improvements:
+ - stam regen?
+ - item discovery?
+ - quitout!

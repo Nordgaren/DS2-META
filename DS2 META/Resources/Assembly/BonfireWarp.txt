@@ -1,0 +1,16 @@
+﻿mov    ebp, esp
+sub	   esp, 0xb8
+push   0x2
+push   0x{0:X}  
+lea    edx,[ebp + -0x50]
+push   edx
+call   0x{1:X}           ;SetWarpTargetFunc
+mov    ecx, 0x{2:X}      ;BaseA
+mov    edx,[ecx+0x44]
+mov    ecx,[edx+0x38]
+add    esp, 0xc
+lea    eax, [ebp + -0x50]
+push   eax
+call   0x{3:X}           ;WarpFunc
+add    esp, 0xb8
+ret

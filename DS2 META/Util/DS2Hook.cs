@@ -148,13 +148,6 @@ namespace DS2_META
         private void DS2Hook_OnHooked(object sender, PHEventArgs e)
         {
             Version = "Vanilla";
-            if (BaseA.Resolve() == IntPtr.Zero)
-            {
-                BaseASetup = RegisterAbsoluteAOB(DS2Offsets.BaseABabyJumpAoB);
-                RescanAOB();
-                BaseA = CreateBasePointer(BasePointerFromSetupBabyJ(BaseASetup));
-                Version = "BabyJump Dll";
-            }
 
             var baseA = BaseA.Resolve();
             var levelUpSoulsParam = LevelUpSoulsParam.Resolve();

@@ -16,7 +16,7 @@ namespace DS2_META
         public const string BaseABabyJumpAoB = "49 BA ? ? ? ? ? ? ? ? 41 FF E2 90 74 2E";
         public const int BasePtrOffset1 = 0x3;
         public const int BasePtrOffset2 = 0x7;
-        public const int PlayerTypeOffset = 0xB0;
+        public const int PlayerTypeOffset = 0x90;
         public enum PlayerType
         {
             ChrNetworkPhantomId = 0x3C,
@@ -45,15 +45,14 @@ namespace DS2_META
         public const int PlayerCtrlOffset = 0x74;
         public enum PlayerCtrl
         {
-            HP = 0x168,
-            HPMin = 0x16C,
-            HPMax = 0x170,
-            HPCap = 0x174,
-            SP = 0x1AC,
-            SPMax = 0x1B4,
-            SpeedModifier = 0x2A8,
+            HP = 0xFC,
+            HPMin = 0x100,
+            HPMax = 0x104,
+            HPCap = 0x108,
+            SP = 0x140,
+            SPMax = 0x148,
+            SpeedModifier = 0x208,
         }
-
         public enum PlayerEquipment
         {
             Legs = 0x920,
@@ -78,67 +77,66 @@ namespace DS2_META
             BloodstainX = 0x40
         }
 
-        public const int PlayerParamOffset = 0x490;
+        public const int PlayerParamOffset = 0x378;
         public enum PlayerParam
         {
-            SoulMemory = 0xF4,
-            SoulMemory2 = 0xFC,
-            MaxEquipLoad = 0x3C,
-            Souls = 0xEC,
-            TotalDeaths = 0x1A4,
-            HollowLevel = 0x1AC,
-            SinnerLevel = 0x1D6,
-            SinnerPoints = 0x1D7
+            SoulMemory = 0xE8,
+            SoulMemory2 = 0xF0,
+            SoulMemory3 = 0xF8,
+            MaxEquipLoad = 0x38,
+            Souls = 0xE8,
+            TotalDeaths = 0x1A0,
+            HollowLevel = 0x1A8,
+            SinnerLevel = 0x1D2,
+            SinnerPoints = 0x1D3
         }
-
         public enum Attributes
         {
-            SoulLevel = 0xD0,
-            VGR = 0x8,
-            END = 0xA,
-            VIT = 0xC,
-            ATN = 0xE,
-            STR = 0x10,
-            DEX = 0x12,
-            ADP = 0x18,
-            INT = 0x14,
-            FTH = 0x16
+            SoulLevel = 0xCC,
+            VGR = 0x4,
+            END = 0x6,
+            VIT = 0x8,
+            ATN = 0xA,
+            STR = 0xC,
+            DEX = 0xE,
+            ADP = 0x14,
+            INT = 0x10,
+            FTH = 0x12
         }
-
         public enum Covenants
         {
-            CurrentCovenant = 0x1AD,
-            HeirsOfTheSunDiscovered = 0x1AF,
-            HeirsOfTheSunOfTheSunRank = 0x1B9,
-            HeirsOfTheSunProgress = 0x1C4,
-            BlueSentinelsDiscovered = 0x1B0,
-            BlueSentinelsRank = 0x1BA,
-            BlueSentinelsProgress = 0x1C6,
-            BrotherhoodOfBloodDiscovered = 0x1B1,
-            BrotherhoodOfBloodRank = 0x1BB,
-            BrotherhoodOfBloodProgress = 0x1CB,
-            WayOfTheBlueDiscovered = 0x1B2,
-            WayOfTheBlueRank = 0x1BC,
-            WayOfTheBlueProgress = 0x1CA,
-            RatKingDiscovered = 0x1B3,
-            RatKingRank = 0x1BD,
-            RatKingProgress = 0x1CC,
-            BellKeepersDiscovered = 0x1B4,
-            BellKeepersRank = 0x1BE,
-            BellKeepersProgress = 0x1CE,
-            DragonRemnantsDiscovered = 0x1B5,
-            DragonRemnantsRank = 0x1BF,
-            DragonRemnantsProgress = 0x1D0,
-            CompanyOfChampionsDiscovered = 0x1B6,
-            CompanyOfChampionsRank = 0x1C0,
-            CompanyOfChampionsProgress = 0x1D2,
-            PilgrimsOfDarknessDiscovered = 0x1B7,
-            PilgrimsOfDarknessRank = 0x1C1,
-            PilgrimsOfDarknessProgress = 0x1D4
+            CurrentCovenant = 0x1A9,
+            HeirsOfTheSunDiscovered = 0x1AB,
+            HeirsOfTheSunOfTheSunRank = 0x1B5,
+            HeirsOfTheSunProgress = 0x1C0,
+            BlueSentinelsDiscovered = 0x1AC,
+            BlueSentinelsRank = 0x1B6,
+            BlueSentinelsProgress = 0x1C2,
+            BrotherhoodOfBloodDiscovered = 0x1AD, // probably wrong
+            BrotherhoodOfBloodRank = 0x1B7, // also
+            BrotherhoodOfBloodProgress = 0x1C7, // wrong
+            WayOfTheBlueDiscovered = 0x1AE,
+            WayOfTheBlueRank = 0x1B8,
+            WayOfTheBlueProgress = 0x1C6,
+            RatKingDiscovered = 0x1AF,
+            RatKingRank = 0x1B9,
+            RatKingProgress = 0x1C8,
+            BellKeepersDiscovered = 0x1B0,
+            BellKeepersRank = 0x1BA,
+            BellKeepersProgress = 0x1CA,
+            DragonRemnantsDiscovered = 0x1B1,
+            DragonRemnantsRank = 0x1BB,
+            DragonRemnantsProgress = 0x1CC,
+            CompanyOfChampionsDiscovered = 0x1B2,
+            CompanyOfChampionsRank = 0x1BC,
+            CompanyOfChampionsProgress = 0x1CE,
+            PilgrimsOfDarknessDiscovered = 0x1B3,
+            PilgrimsOfDarknessRank = 0x1BD,
+            PilgrimsOfDarknessProgress = 0x1D0
         }
 
-        public const int PlayerPositionOffset1 = 0xF8;
-        public const int PlayerPositionOffset2 = 0xF0;
+        public const int PlayerPositionOffset1 = 0xB4;
+        public const int PlayerPositionOffset2 = 0xA8;
 
         public enum PlayerPosition
         {
@@ -150,33 +148,35 @@ namespace DS2_META
             AngX = 0x3C
         }
 
-        public const int PlayerMapDataOffset1 = 0x100;
+        public const int GravityOffset1 = 0xB8;
+        public const int GravityOffset2 = 0x8;
         public enum Gravity
         {
-            Gravity = 0x134
+            Gravity = 0xFC
         }
-        public const int PlayerMapDataOffset2 = 0x320;
-        public const int PlayerMapDataOffset3 = 0x20;
+        public const int PlayerMapDataOffset1 = 0x14;
+        public const int PlayerMapDataOffset2 = 0x1B0;
+        public const int PlayerMapDataOffset3 = 0x10;
         public enum PlayerMapData
         {
-            WarpBase = 0x1A0,
-            WarpY1 = 0x1A0,
-            WarpZ1 = 0x1A4,
-            WarpX1 = 0x1A8,
-            WarpY2 = 0x1B0,
-            WarpZ2 = 0x1B4,
-            WarpX2 = 0x1B8,
-            WarpY3 = 0x1C0,
-            WarpZ3 = 0x1C4,
-            WarpX3 = 0x1C8
+            WarpBase = 0x120,
+            WarpY1 = 0x120,
+            WarpZ1 = 0x124,
+            WarpX1 = 0x128,
+            WarpY2 = 0x130,
+            WarpZ2 = 0x134,
+            WarpX2 = 0x138,
+            WarpY3 = 0x140,
+            WarpZ3 = 0x144,
+            WarpX3 = 0x148
         }
 
-        public const int SpEffectCtrlOffset = 0x3E0;
-        public const string ApplySpEffectAoB = "E9 ? ? ? ? E9 ? ? ? ? 50 5A 41 51 59";
+        public const int SpEffectCtrlOffset = 0x308;
+        public const string ApplySpEffectAoB = "E9 ? ? ? ? E9 ? ? ? ? 90 3E C8";
 
         public const int CharacterFlagsOffset = 0x490;
 
-        public const string GiveSoulsFuncAoB = "48 83 EC 28 48 8b 01 48 85 C0 74 23 48 8B 80 B8 00 00 00";
+        public const string GiveSoulsFuncAoB = "55 8B EC 8B 01 83 EC 08 85 C0 74 20 8B 80 94 00 00 00";
 
         public const string SetWarpTargetFuncAoB = "55 8B EC 83 EC 44 53 56 8B 75 0C 57 56 8D 4D 0C";
         public const string WarpFuncAoB = "55 8B EC 83 EC 40 53 56 8B 75 08 8B D9 57 B9 10 00 00 00";

@@ -64,7 +64,7 @@ namespace DS2_META
             cbxSpeed.IsEnabled = enable;
             cbxGravity.IsEnabled = enable;
             cbxCollision.IsEnabled = enable;
-            //btnWarp.IsEnabled = enable && !Hook.Multiplayer;
+            btnWarp.IsEnabled = enable && !Hook.Multiplayer;
             cbxWarpRest.IsEnabled = enable;
 
             if (enable)
@@ -84,12 +84,12 @@ namespace DS2_META
                 PlayerState.AngZ = Hook.AngZ;
                 PlayerState.HP = (int)nudHealth.Value;
                 PlayerState.Stamina = (int)nudStamina.Value;
-                PlayerState.FollowCam = Hook.CameraData;
-                PlayerState.FollowCam2 = Hook.CameraData2;
+                //PlayerState.FollowCam = Hook.CameraData;
+                //PlayerState.FollowCam2 = Hook.CameraData2;
                 PlayerState.Set = true;
-                CamX = Hook.CamX;
-                CamY = Hook.CamY;
-                CamZ = Hook.CamZ;
+                //CamX = Hook.CamX;
+                //CamY = Hook.CamY;
+                //CamZ = Hook.CamZ;
                 pos.X = Hook.PosX;
                 pos.Y = Hook.PosY;
                 pos.Z = Hook.PosZ;
@@ -167,7 +167,7 @@ namespace DS2_META
                 Hook.AngX = PlayerState.AngX;
                 Hook.AngY = PlayerState.AngY;
                 Hook.AngZ = PlayerState.AngZ;
-                Hook.CameraData = PlayerState.FollowCam;
+                //Hook.CameraData = PlayerState.FollowCam;
                 //Hook.CamX = CamX;
                 //Hook.CamY = CamY;
                 //Hook.CamZ = CamZ;

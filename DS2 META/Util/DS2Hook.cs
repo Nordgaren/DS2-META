@@ -101,11 +101,11 @@ namespace DS2_META
             //SpeedFactorAnim = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorAnimOffset);
             //SpeedFactorJump = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorJumpOffset);
             //SpeedFactorBuildup = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorBuildupOffset);
-            //GiveSoulsFunc = RegisterAbsoluteAOB(DS2Offsets.GiveSoulsFuncAoB);
+            GiveSoulsFunc = RegisterAbsoluteAOB(DS2Offsets.GiveSoulsFuncAoB);
             //ItemStruct2dDisplay = RegisterAbsoluteAOB(DS2Offsets.ItemStruct2dDisplay);
             //DisplayItem = RegisterAbsoluteAOB(DS2Offsets.DisplayItem); 
             SetWarpTargetFunc = RegisterAbsoluteAOB(DS2Offsets.SetWarpTargetFuncAoB);
-            //ApplySpEffect = RegisterAbsoluteAOB(DS2Offsets.ApplySpEffectAoB);
+            ApplySpEffect = RegisterAbsoluteAOB(DS2Offsets.ApplySpEffectAoB);
             WarpFunc = RegisterAbsoluteAOB(DS2Offsets.WarpFuncAoB);
 
             //BaseBSetup = RegisterAbsoluteAOB(DS2Offsets.BaseBAoB);
@@ -115,12 +115,12 @@ namespace DS2_META
             //ItemGiveWindow = CreateChildPointer(BaseA, (int)DS2Offsets.ItemGiveWindowPointer);
             PlayerBaseMisc = CreateChildPointer(GameDataManager, (int)DS2Offsets.PlayerBaseMiscOffset);
             PlayerCtrl = CreateChildPointer(BaseA, (int)DS2Offsets.PlayerCtrlOffset);
-            //PlayerPosition = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerPositionOffset1, (int)DS2Offsets.PlayerPositionOffset2);
-            //PlayerGravity = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerMapDataOffset1);
-            //PlayerParam = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerParamOffset);
-            //PlayerType = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerTypeOffset);
-            //SpEffectCtrl = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.SpEffectCtrlOffset);
-            //PlayerMapData = CreateChildPointer(PlayerGravity, (int)DS2Offsets.PlayerMapDataOffset2, (int)DS2Offsets.PlayerMapDataOffset3);
+            PlayerPosition = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerPositionOffset1, (int)DS2Offsets.PlayerPositionOffset2);
+            PlayerGravity = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.GravityOffset1, (int)DS2Offsets.GravityOffset2);
+            PlayerMapData = CreateChildPointer(PlayerGravity, (int)DS2Offsets.PlayerMapDataOffset1, (int)DS2Offsets.PlayerMapDataOffset2, (int)DS2Offsets.PlayerMapDataOffset3);
+            PlayerParam = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerParamOffset);
+            PlayerType = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerTypeOffset);
+            SpEffectCtrl = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.SpEffectCtrlOffset);
             EventManager = CreateChildPointer(BaseA, (int)DS2Offsets.EventManagerOffset);
             //BonfireLevels = CreateChildPointer(EventManager, (int)DS2Offsets.BonfireLevelsOffset1, (int)DS2Offsets.BonfireLevelsOffset2);
             WarpManager = CreateChildPointer(EventManager, (int)DS2Offsets.WarpManagerOffset);
@@ -185,17 +185,13 @@ namespace DS2_META
         {
             // Assemble once to determine size
             byte[] bytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
-#if DEBUG
             PrintByte(bytes);
-#endif
             Debug.WriteLine("");
             IntPtr insertPtr = Allocate((uint)bytes.Length, Kernel32.PAGE_EXECUTE_READWRITE);
             // Then rebase and inject
             // Note: you can't use String.Format here because IntPtr is not IFormattable
             bytes = FasmNet.Assemble("use32\norg 0x" + insertPtr.ToString("X") + "\n" + asm);
-#if DEBUG
             PrintByte(bytes);
-#endif
             Kernel32.WriteBytes(Handle, insertPtr, bytes);
             Execute(insertPtr);
             Free(insertPtr);
@@ -203,12 +199,15 @@ namespace DS2_META
 
         private void PrintByte(byte[] bytes)
         {
+#if DEBUG
+
             foreach (var b in bytes)
             {
                 Debug.Write($"{b.ToString("X2")} ");
             }
             Debug.WriteLine("");
             Debug.WriteLine("");
+#endif
         }
         public void UpdateName()
         {
@@ -651,22 +650,9 @@ namespace DS2_META
             Kernel32.WriteBytes(Handle, effectStruct + 0x4, BitConverter.GetBytes(0x1));
             Kernel32.WriteBytes(Handle, effectStruct + 0xC, BitConverter.GetBytes(0x219));
 
-            var unk = Allocate(sizeof(float));
-            Kernel32.WriteBytes(Handle, unk, BitConverter.GetBytes(-1f));
-
-            var asm = Properties.Resources.ApplySpecialEffect;
-            var bytes = BitConverter.GetBytes(effectStruct.ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x6, bytes.Length);
-            //bytes = BitConverter.GetBytes(SpEffectCtrl.Resolve().ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x10, bytes.Length);
-            //bytes = BitConverter.GetBytes(unk.ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x1A, bytes.Length);
-            //bytes = BitConverter.GetBytes(ApplySpEffect.Resolve().ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x2E, bytes.Length);
-
-            //Execute(asm);
+            var asm = string.Format(Properties.Resources.ApplySpecialEffect, effectStruct.ToString("X2"), SpEffectCtrl.Resolve().ToString("X2"), ApplySpEffect.Resolve().ToString("X2"));
+            AsmExecute(asm);
             Free(effectStruct);
-            Free(unk);
         }
 
 #endregion
@@ -674,12 +660,12 @@ namespace DS2_META
 #region Stats
         public string Name
         {
-            get => Loaded ? GameDataManager.ReadString((int)DS2Offsets.PlayerName.Name, Encoding.Unicode, 0x22) : "";
+            get => Loaded ? GameDataManager.ReadString((int)DS2Offsets.PlayerName.Name, Encoding.Unicode, 0x1F) : "";
             set
             {
                 if (Reading || !Loaded) return;
                 if (Name == value) return;
-                GameDataManager.WriteString((int)DS2Offsets.PlayerName.Name, Encoding.Unicode, 0x22, value);
+                GameDataManager.WriteString((int)DS2Offsets.PlayerName.Name, Encoding.Unicode, 0x1F, value);
                 OnPropertyChanged(nameof(Name));
             }
         }
@@ -820,15 +806,8 @@ namespace DS2_META
         }
         public void GiveSouls(int souls)
         {
-            var asm = Properties.Resources.AddSouls;
-
-            var bytes = BitConverter.GetBytes(PlayerParam.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x6, 8);
-            //bytes = BitConverter.GetBytes(souls);
-            //Array.Copy(bytes, 0, asm, 0x11, 4);
-            //bytes = BitConverter.GetBytes(GiveSoulsFunc.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x17, 8);
-            //Execute(asm);
+            var asm = string.Format(Properties.Resources.AddSouls, PlayerParam.Resolve().ToString("X2"), souls.ToString("X2"), GiveSoulsFunc.Resolve().ToString("X2"));
+            AsmExecute(asm);
         }
         private void UpdateSoulLevel()
         {
@@ -1056,14 +1035,21 @@ namespace DS2_META
             var heldOffset = 0x8;
             var nextOffset = 0x10;
 
-            var endPointer = AvailableItemBag.ReadIntPtr(0x10).ToInt64();
-            var bagSize = endPointer - AvailableItemBag.Resolve().ToInt64();
+            var endPointer = AvailableItemBag.ReadIntPtr(0x10).ToInt32();
+            var bagSize = endPointer - AvailableItemBag.Resolve().ToInt32();
+
+            var inventory = AvailableItemBag.ReadBytes(0x0, (uint)bagSize);
 
             while (inventorySlot < bagSize)
             {
-                var itemID = AvailableItemBag.ReadInt32(inventorySlot + itemOffset);
-                var boxValue = AvailableItemBag.ReadInt32(inventorySlot + boxOffset);
-                var held = AvailableItemBag.ReadInt32(inventorySlot + heldOffset);
+                var itemID = BitConverter.ToInt32(inventory, inventorySlot + itemOffset);
+                if (itemID != id)
+                {
+                    inventorySlot += nextOffset;
+                    continue;
+                }
+                var boxValue = BitConverter.ToInt32(inventory, inventorySlot + boxOffset);
+                var held = BitConverter.ToInt32(inventory, inventorySlot + heldOffset);
 
                 if (itemID == id)
                     if (boxValue == 0)
@@ -1071,6 +1057,25 @@ namespace DS2_META
 
                 inventorySlot += nextOffset;
             }
+
+            //while (inventorySlot < bagSize)
+            //{
+            //    var itemID = AvailableItemBag.ReadInt32(inventorySlot + itemOffset);
+            //    if (itemID != id)
+            //    {
+            //        inventorySlot += nextOffset;
+            //        continue;
+            //    }
+
+            //    var boxValue = AvailableItemBag.ReadInt32(inventorySlot + boxOffset);
+            //    var held = AvailableItemBag.ReadInt32(inventorySlot + heldOffset);
+
+            //    if (itemID == id)
+            //        if (boxValue == 0)
+            //            return held;
+
+            //    inventorySlot += nextOffset;
+            //}
 
             return 0;
         }

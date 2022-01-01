@@ -180,7 +180,7 @@ namespace DS2_META
             if (item == null)
                 return;
 
-            if (!cbxQuantityRestrict.IsChecked.Value)
+            if (cbxQuantityRestrict.IsChecked.Value)
             {
                 txtMaxHeld.Visibility = nudQuantity.Maximum > 0 ? Visibility.Hidden : Visibility.Visible;
 

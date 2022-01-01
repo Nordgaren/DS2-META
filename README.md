@@ -22,6 +22,7 @@ A
 * Extract contents of zip archive to it's own folder. You may have to run as admin if DS2S META crashes  
 
 ## Thank You  
+**[ffleret](https://www.twitch.tv/ffleret)** Who bought be vanilla DS2 so I could port DS2S META over to vanilla  
 **[TKGP](https://github.com/JKAnderson/)** Author of [DS Gadget](https://github.com/JKAnderson/DS-Gadget) and [Property Hook](https://github.com/JKAnderson/PropertyHook)  
 **[Atvaark](https://github.com/Atvaark)** Author of the CE table used for this tool  
 **[Lord Radai](https://github.com/LordRadai)** good mentor and contributor  

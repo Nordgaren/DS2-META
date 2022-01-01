@@ -13,8 +13,6 @@
     <Window.DataContext>
         <local:DS2ViewModel x:Name="ViewModel"/>
     </Window.DataContext>
-    
-
     <Grid>
         <StackPanel>
             <Grid Height="25" MouseDown="Grid_MouseDown" Background="Black">

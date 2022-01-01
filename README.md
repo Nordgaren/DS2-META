@@ -40,8 +40,12 @@ A
 [Fasm.NET](https://github.com/JamesMenetrey/Fasm.NET) by [James Menetrey](https://github.com/JamesMenetrey)  
 
 # Change Log  
+### Beta 0.0.0.5  
+
+* Player and Stats tab implemented    
+
 ### Beta 0.0.0.1  
 
-* Item Give and Bonfire Warp implimented  
+* Item Give and Bonfire Warp implemented    
 
 * Working on catching up to DS2S META functionality  

@@ -35,7 +35,7 @@ A
 
 [Octokit](https://github.com/octokit/octokit.net) by [Octokit](https://github.com/octokit) team  
 
-[LowLevelHooking](https://github.com/jnm2/LowLevelHooking) by [Joseph Musser](https://github.com/jnm2)  
+[GlobalHotkeys](https://github.com/mrousavy/Hotkeys) by [Marc Rousavy](https://github.com/mrousavy)   
 
 [Fasm.NET](https://github.com/JamesMenetrey/Fasm.NET) by [James Menetrey](https://github.com/JamesMenetrey)  
 

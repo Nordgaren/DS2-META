@@ -52,6 +52,7 @@ namespace DS2_META
         private PHPointer ItemGiveWindow;
         private PHPointer PlayerBaseMisc;
         private PHPointer PlayerCtrl;
+        private PHPointer Equipment;
         private PHPointer PlayerPosition;
         private PHPointer PlayerGravity;
         private PHPointer PlayerParam;
@@ -71,7 +72,6 @@ namespace DS2_META
         private PHPointer ItemParam;
         private PHPointer ItemUseageParam;
 
-        private PHPointer BaseBSetup;
         private PHPointer BaseB;
         private PHPointer Connection;
 
@@ -97,10 +97,10 @@ namespace DS2_META
             Version = "Not Hooked";
             BaseA = RegisterAbsoluteAOB(DS2Offsets.BaseAAoB, DS2Offsets.BaseOffset1, DS2Offsets.BaseOffset2);
 
-            //SpeedFactorAccel = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorAccelOffset);
-            //SpeedFactorAnim = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorAnimOffset);
-            //SpeedFactorJump = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorJumpOffset);
-            //SpeedFactorBuildup = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorBuildupOffset);
+            SpeedFactorAccel = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorAccelOffset);
+            SpeedFactorAnim = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorAnimOffset);
+            SpeedFactorJump = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorJumpOffset);
+            SpeedFactorBuildup = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorBuildupOffset);
             GiveSoulsFunc = RegisterAbsoluteAOB(DS2Offsets.GiveSoulsFuncAoB);
             //ItemStruct2dDisplay = RegisterAbsoluteAOB(DS2Offsets.ItemStruct2dDisplay);
             //DisplayItem = RegisterAbsoluteAOB(DS2Offsets.DisplayItem); 
@@ -115,6 +115,7 @@ namespace DS2_META
             //ItemGiveWindow = CreateChildPointer(BaseA, (int)DS2Offsets.ItemGiveWindowPointer);
             PlayerBaseMisc = CreateChildPointer(GameDataManager, (int)DS2Offsets.PlayerBaseMiscOffset);
             PlayerCtrl = CreateChildPointer(BaseA, (int)DS2Offsets.PlayerCtrlOffset);
+            Equipment = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.EquipmentOffset1, (int)DS2Offsets.EquipmentOffset2);
             PlayerPosition = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerPositionOffset1, (int)DS2Offsets.PlayerPositionOffset2);
             PlayerGravity = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.GravityOffset1, (int)DS2Offsets.GravityOffset2);
             PlayerMapData = CreateChildPointer(PlayerGravity, (int)DS2Offsets.PlayerMapDataOffset1, (int)DS2Offsets.PlayerMapDataOffset2, (int)DS2Offsets.PlayerMapDataOffset3);
@@ -122,8 +123,8 @@ namespace DS2_META
             PlayerType = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerTypeOffset);
             SpEffectCtrl = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.SpEffectCtrlOffset);
             EventManager = CreateChildPointer(BaseA, (int)DS2Offsets.EventManagerOffset);
-            //BonfireLevels = CreateChildPointer(EventManager, (int)DS2Offsets.BonfireLevelsOffset1, (int)DS2Offsets.BonfireLevelsOffset2);
             WarpManager = CreateChildPointer(EventManager, (int)DS2Offsets.WarpManagerOffset);
+            BonfireLevels = CreateChildPointer(WarpManager, (int)DS2Offsets.BonfireLevelsOffset);
             //NetSvrBloodstainManager = CreateChildPointer(BaseA, (int)DS2Offsets.NetSvrBloodstainManagerOffset1, (int)DS2Offsets.NetSvrBloodstainManagerOffset2, (int)DS2Offsets.NetSvrBloodstainManagerOffset3);
 
             LevelUpSoulsParam = CreateChildPointer(BaseA, (int)DS2Offsets.ParamDataOffset1, (int)DS2Offsets.LevelUpSoulsParamOffset, (int)DS2Offsets.ParamDataOffset2);
@@ -173,6 +174,12 @@ namespace DS2_META
             Version = "Not Hooked";
             Setup = false;
         }
+
+        private int GetRelativeOffset(IntPtr source, IntPtr dest)
+        {
+            return dest.ToInt32() - source.ToInt32();
+        }
+
         //TKCode
         private void AsmExecute(string asm)
         {
@@ -306,7 +313,7 @@ namespace DS2_META
             OnPropertyChanged(nameof(UnderCastleDrangleic));
             OnPropertyChanged(nameof(ForgottenChamber));
             OnPropertyChanged(nameof(CentralCastleDrangleic));
-            OnPropertyChanged(nameof(TowerofPrayer));
+            OnPropertyChanged(nameof(TowerofPrayerAmana));
             OnPropertyChanged(nameof(CrumbledRuins));
             OnPropertyChanged(nameof(RhoysRestingPlace));
             OnPropertyChanged(nameof(RiseoftheDead));
@@ -321,7 +328,7 @@ namespace DS2_META
             OnPropertyChanged(nameof(HiddenSanctumChamber));
             OnPropertyChanged(nameof(LairoftheImperfect));
             OnPropertyChanged(nameof(SanctumInterior));
-            OnPropertyChanged(nameof(TowerofPrayer));
+            OnPropertyChanged(nameof(TowerofPrayerShulva));
             OnPropertyChanged(nameof(SanctumNadir));
             OnPropertyChanged(nameof(ThroneFloor));
             OnPropertyChanged(nameof(UpperFloor));
@@ -2179,7 +2186,7 @@ namespace DS2_META
                 BonfireLevels.WriteByte((int)DS2Offsets.BonfireLevels.CentralCastleDrangleic, level);
             }
         }
-        public byte TowerofPrayer
+        public byte TowerofPrayerAmana
         {
             get
             {
@@ -2187,7 +2194,7 @@ namespace DS2_META
 
                 if (Loaded)
                 {
-                    level = BonfireLevels.ReadByte((int)DS2Offsets.BonfireLevels.TowerofPrayer);
+                    level = BonfireLevels.ReadByte((int)DS2Offsets.BonfireLevels.TowerofPrayerAmana);
                     level = (byte)((level + 1) / 2);
                 }
 
@@ -2198,7 +2205,7 @@ namespace DS2_META
                 byte level = 0;
                 if (value > 0)
                     level = (byte)(value * 2 - 1);
-                BonfireLevels.WriteByte((int)DS2Offsets.BonfireLevels.TowerofPrayer, level);
+                BonfireLevels.WriteByte((int)DS2Offsets.BonfireLevels.TowerofPrayerAmana, level);
             }
         }
         public byte CrumbledRuins
@@ -2509,7 +2516,7 @@ namespace DS2_META
                 BonfireLevels.WriteByte((int)DS2Offsets.BonfireLevels.SanctumInterior, level);
             }
         }
-        public byte TowerofPrayerDLC
+        public byte TowerofPrayerShulva
         {
             get
             {
@@ -2517,7 +2524,7 @@ namespace DS2_META
 
                 if (Loaded)
                 {
-                    level = BonfireLevels.ReadByte((int)DS2Offsets.BonfireLevels.TowerofPrayerDLC);
+                    level = BonfireLevels.ReadByte((int)DS2Offsets.BonfireLevels.TowerofPrayerShulva);
                     level = (byte)((level + 1) / 2);
                 }
 
@@ -2528,7 +2535,7 @@ namespace DS2_META
                 byte level = 0;
                 if (value > 0)
                     level = (byte)(value * 2 - 1);
-                BonfireLevels.WriteByte((int)DS2Offsets.BonfireLevels.TowerofPrayerDLC, level);
+                BonfireLevels.WriteByte((int)DS2Offsets.BonfireLevels.TowerofPrayerShulva, level);
             }
         }
         public byte SanctumNadir
@@ -2841,7 +2848,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.Head);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.Head);
 
                 if (DS2Item.Items.ContainsKey(itemID + 10000000))
                     return DS2Item.Items[itemID + 10000000];
@@ -2854,7 +2861,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.Chest);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.Chest);
 
                 if (DS2Item.Items.ContainsKey(itemID + 10000000))
                     return DS2Item.Items[itemID + 10000000];
@@ -2867,7 +2874,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.Arms);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.Arms);
 
                 if (DS2Item.Items.ContainsKey(itemID + 10000000))
                     return DS2Item.Items[itemID + 10000000];
@@ -2880,7 +2887,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.Legs);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.Legs);
 
                 if (DS2Item.Items.ContainsKey(itemID + 10000000))
                     return DS2Item.Items[itemID + 10000000];
@@ -2893,7 +2900,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.RightHand1);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.RightHand1);
 
                 if (DS2Item.Items.ContainsKey(itemID))
                     return DS2Item.Items[itemID];
@@ -2906,7 +2913,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.RightHand2);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.RightHand2);
 
                 if (DS2Item.Items.ContainsKey(itemID))
                     return DS2Item.Items[itemID];
@@ -2919,7 +2926,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.RightHand3);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.RightHand3);
 
                 if (DS2Item.Items.ContainsKey(itemID))
                     return DS2Item.Items[itemID];
@@ -2932,7 +2939,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.LeftHand1);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.LeftHand1);
 
                 if (DS2Item.Items.ContainsKey(itemID))
                     return DS2Item.Items[itemID];
@@ -2945,7 +2952,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.LeftHand2);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.LeftHand2);
 
                 if (DS2Item.Items.ContainsKey(itemID))
                     return DS2Item.Items[itemID];
@@ -2958,7 +2965,7 @@ namespace DS2_META
             get
             {
                 if (!Loaded) return "";
-                var itemID = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerEquipment.LeftHand3);
+                var itemID = Equipment.ReadInt32((int)DS2Offsets.PlayerEquipment.LeftHand3);
 
                 if (DS2Item.Items.ContainsKey(itemID))
                     return DS2Item.Items[itemID];
@@ -3001,7 +3008,7 @@ namespace DS2_META
             {
                 _accelerationStamina = value;
                 if (_accelerationStamina)
-                    InjectSpeedFactor(SpeedFactorAccel, ref AccelSpeedPtr, ref AccelSpeedCodePtr, Properties.Resources.SpeedFactorAccel, Properties.Settings.Default.AccelSpeed);
+                    InjectSpeedFactor(SpeedFactorAccel, ref AccelSpeedPtr, ref AccelSpeedCodePtr, Properties.Settings.Default.AccelSpeed);
                 else
                 {
                     RepairSpeedFactor(SpeedFactorAccel, AccelSpeedPtr, AccelSpeedCodePtr, Properties.Resources.OgSpeedFactorAccel);
@@ -3032,7 +3039,7 @@ namespace DS2_META
             {
                 _animationSpeed = value;
                 if (_animationSpeed)
-                    InjectSpeedFactor(SpeedFactorAnim, ref AnimSpeedPtr, ref AnimSpeedCodePtr, Properties.Resources.SpeedFactor, Properties.Settings.Default.AnimSpeed);
+                    InjectSpeedFactor(SpeedFactorAnim, ref AnimSpeedPtr, ref AnimSpeedCodePtr, Properties.Settings.Default.AnimSpeed);
                 else
                 {
                     RepairSpeedFactor(SpeedFactorAnim, AnimSpeedPtr, AnimSpeedCodePtr, Properties.Resources.OgSpeedFactor);
@@ -3063,10 +3070,10 @@ namespace DS2_META
             {
                 _jumpSpeed = value;
                 if (_jumpSpeed)
-                    InjectSpeedFactor(SpeedFactorJump, ref JumpSpeedPtr, ref JumpSpeedCodePtr, Properties.Resources.SpeedFactor, Properties.Settings.Default.JumpSpeed);
+                    InjectSpeedFactor(SpeedFactorJump, ref JumpSpeedPtr, ref JumpSpeedCodePtr, Properties.Settings.Default.JumpSpeed);
                 else
                 {
-                    RepairSpeedFactor(SpeedFactorJump, JumpSpeedPtr, JumpSpeedCodePtr, Properties.Resources.OgSpeedFactor);
+                    RepairSpeedFactor(SpeedFactorJump, JumpSpeedPtr, JumpSpeedCodePtr, Properties.Resources.OgSpeedFactorAccel);
                     JumpSpeedPtr = IntPtr.Zero;
                     JumpSpeedCodePtr = IntPtr.Zero;
                 }
@@ -3094,7 +3101,7 @@ namespace DS2_META
             {
                 _buildupSpeed = value;
                 if (_buildupSpeed)
-                    InjectSpeedFactor(SpeedFactorBuildup, ref BuildupSpeedPtr, ref BuildupSpeedCodePtr, Properties.Resources.SpeedFactor, Properties.Settings.Default.BuildupSpeed);
+                    InjectSpeedFactor(SpeedFactorBuildup, ref BuildupSpeedPtr, ref BuildupSpeedCodePtr, Properties.Settings.Default.BuildupSpeed);
                 else
                 {
                     RepairSpeedFactor(SpeedFactorBuildup, BuildupSpeedPtr, BuildupSpeedCodePtr, Properties.Resources.OgSpeedFactor);
@@ -3106,34 +3113,37 @@ namespace DS2_META
 
         private void RepairSpeedFactor(PHPointer speedFactorPointer, IntPtr valuePointer, IntPtr codePointer, string asm)
         {
-            //speedFactorPointer.WriteBytes(0x0, asm);
+            var asmBytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
+            PrintByte(asmBytes);
+            speedFactorPointer.WriteBytes(0x0, asmBytes);
             Free(valuePointer);
             Free(codePointer);
         }
 
-        private void InjectSpeedFactor(PHPointer speedFactorPointer, ref IntPtr valuePointer, ref IntPtr codePointer, string asm, float value)
+        private void InjectSpeedFactor(PHPointer speedFactorPointer, ref IntPtr valuePointer, ref IntPtr codePointer, float value)
         {
-            //var inject = new byte[0x11];
-            //Array.Copy(asm, inject, inject.Length);
-            //var newCode = new byte[0x18];
-            //Array.Copy(asm, inject.Length, newCode, 0x0, newCode.Length);
+            var asmCode = string.Format(Properties.Resources.SpeedFactor, "FFFF0000", "FFFF0000");
+            var asmCodeBytes = FasmNet.Assemble("use32\norg 0x0\n" + asmCode);
 
-            //valuePointer = Allocate(sizeof(float));
-            //var valuePointerBytes = BitConverter.GetBytes(valuePointer.ToInt64());
-            //codePointer = Allocate(sizeof(float), Kernel32.PAGE_EXECUTE_READWRITE);
-            //var codePointerBytes = BitConverter.GetBytes(codePointer.ToInt64());
+            codePointer = GetPrefferedIntPtr(asmCodeBytes.Length, Kernel32.PAGE_EXECUTE_READWRITE);
+            valuePointer = GetPrefferedIntPtr(sizeof(float));
+            Kernel32.WriteBytes(Handle, valuePointer, BitConverter.GetBytes(value));
 
-            //Array.Copy(valuePointerBytes, 0x0, newCode, 0x2, valuePointerBytes.Length);
-            //Array.Copy(codePointerBytes, 0x0, inject, 0x3, valuePointerBytes.Length);
+            var offset = GetRelativeOffset(speedFactorPointer.Resolve(), codePointer);
+            var asmInject = string.Format(Properties.Resources.SpeedFactorInject, offset.ToString("X2"));
+            var asmInjectBytes = FasmNet.Assemble("use32\norg 0x0\n" + asmInject);
 
-            //Kernel32.WriteBytes(Handle, valuePointer, BitConverter.GetBytes(value));
-            //Kernel32.WriteBytes(Handle, codePointer, newCode);
-            //speedFactorPointer.WriteBytes(0x0, inject);
+            offset = GetRelativeOffset(codePointer, speedFactorPointer.Resolve() + asmInjectBytes.Length);
+            asmCode = string.Format(Properties.Resources.SpeedFactor, valuePointer.ToString("X2"), offset.ToString("X2"));
+            asmCodeBytes = FasmNet.Assemble("use32\norg 0x0\n" + asmCode);
+            Kernel32.WriteBytes(Handle, codePointer, asmCodeBytes);
+
+            speedFactorPointer.WriteBytes(0x0, asmInjectBytes);
         }
 
-#endregion
+        #endregion
 
-#region Covenant
+        #region Covenant
 
         public byte CurrentCovenant
         {

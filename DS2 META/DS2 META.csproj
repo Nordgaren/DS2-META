@@ -92,8 +92,8 @@
     <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\Fasm.NET.1.70.03.2\lib\Fasm.NET.dll</HintPath>
     </Reference>
-    <Reference Include="LowLevelHooking, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LowLevelHooking.1.0.1\lib\net20\LowLevelHooking.dll</HintPath>
+    <Reference Include="Hotkeys, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GlobalHotkeys.1.0.0.6\lib\Hotkeys.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
@@ -303,6 +303,7 @@
       <DependentUpon>HotkeyControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\User32.cs" />
+    <Resource Include="Resources\Assembly\SpeedFactorInject.txt" />
     <None Include="Resources\Systems\Covenants.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -328,7 +329,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Resource Include="Resources\Assembly\GiveItemWithoutMenu.txt" />
-    <Resource Include="Resources\Assembly\SpeedFactorAccel.txt" />
     <Resource Include="Resources\Assembly\BonfireWarp.txt" />
     <Resource Include="Resources\Assembly\ApplySpecialEffect.txt" />
     <Content Include="Resources\Assembly\GiveItemWithMenu.txt" />

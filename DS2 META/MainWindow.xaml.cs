@@ -162,6 +162,7 @@ namespace DS2_META
         {
             Hook.UpdateMainProperties();
             ViewModel.UpdateMainProperties();
+            CheckFocused();
         }
 
         private void InitAllTabs()
@@ -182,23 +183,23 @@ namespace DS2_META
         {
             metaPlayer.EnableCtrls(enable);
             metaStats.EnableCtrls(enable);
-            //metaBonfire.EnableCtrls(enable);
-            //metaInternal.EnableCtrls(enable);
+            metaBonfire.EnableCtrls(enable);
+            metaInternal.EnableCtrls(enable);
             metaItems.EnableCtrls(enable);
-            //metaCovenant.EnableCtrls(enable);
+            metaCovenant.EnableCtrls(enable);
         }
         private void ReloadAllTabs()
         {
             metaPlayer.ReloadCtrl();
             metaStats.ReloadCtrl();
-            //metaItems.ReloadCtrl();
-            //metaBonfire.ReloadCtrl();
+            metaItems.ReloadCtrl();
+            metaBonfire.ReloadCtrl();
         }
         private void UpdateAllTabs()
         {
             metaPlayer.UpdateCtrl();
             metaStats.UpdateCtrl();
-            //metaBonfire.UpdateCtrl();
+            metaBonfire.UpdateCtrl();
             metaItems.UpdateCtrl();
         }
 

@@ -1,6 +1,6 @@
-﻿mov eax, 0x1 ;items in struct
-mov edx, 0x{0:X} ;item struct
-mov ecx, 0x{1:X} ;player inventoy
+﻿mov eax, 0x1 ;Items in Struct
+mov edx, 0x{0:X} ;Item Struct
+mov ecx, 0x{1:X} ;Player Inventoy
 push 0x0
 push eax
 push edx

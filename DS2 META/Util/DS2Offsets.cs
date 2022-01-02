@@ -53,18 +53,21 @@ namespace DS2_META
             SPMax = 0x148,
             SpeedModifier = 0x208,
         }
+
+        public const int EquipmentOffset1 = 0x2D4;
+        public const int EquipmentOffset2 = 0x14;
         public enum PlayerEquipment
         {
-            Legs = 0x920,
-            Arms = 0x90C,
-            Chest = 0x8F8,
-            Head = 0x8E4,
-            RightHand1 = 0x880,
-            RightHand2 = 0x8A8,
-            RightHand3 = 0x8D0,
-            LeftHand1 = 0x86C,
-            LeftHand2 = 0x894,
-            LeftHand3 = 0x8BC
+            Legs = 0x1F8,
+            Arms = 0x1DC,
+            Chest = 0x1C0,
+            Head = 0x1A4,
+            RightHand1 = 0xC8,
+            RightHand2 = 0xF4,
+            RightHand3 = 0x120,
+            LeftHand1 = 0x44,
+            LeftHand2 = 0x70,
+            LeftHand3 = 0x9C
         }
 
         public const int NetSvrBloodstainManagerOffset1 = 0x90; 
@@ -112,9 +115,9 @@ namespace DS2_META
             BlueSentinelsDiscovered = 0x1AC,
             BlueSentinelsRank = 0x1B6,
             BlueSentinelsProgress = 0x1C2,
-            BrotherhoodOfBloodDiscovered = 0x1AD, // probably wrong
-            BrotherhoodOfBloodRank = 0x1B7, // also
-            BrotherhoodOfBloodProgress = 0x1C7, // wrong
+            BrotherhoodOfBloodDiscovered = 0x1AD, // possibly wrong (0x1AA alternative)
+            BrotherhoodOfBloodRank = 0x1B7, // also possibly wrong (0x1B4 alternative)
+            BrotherhoodOfBloodProgress = 0x1C4, // right I think (but maybe not) (0x1C7 alternative)
             WayOfTheBlueDiscovered = 0x1AE,
             WayOfTheBlueRank = 0x1B8,
             WayOfTheBlueProgress = 0x1C6,
@@ -188,87 +191,86 @@ namespace DS2_META
             LastSetBonfireAreaID = 0xB4,
             LastSetBonfire = 0xBC
         }
-        public const int BonfireLevelsOffset1 = 0x58;
-        public const int BonfireLevelsOffset2 = 0x20;
+        public const int BonfireLevelsOffset = 0x10;
         public enum BonfireLevels
         {
+            TheFarFire = 0x12,
             FireKeepersDwelling = 0x2,
-            TheFarFire = 0x1A,
-            CrestfallensRetreat = 0x62,
-            CardinalTower = 0x32,
-            SoldiersRest = 0x4A,
-            ThePlaceUnbeknownst = 0x7A,
-            HeidesRuin = 0x4B2,
-            TowerofFlame = 0x49A,
-            TheBlueCathedral = 0x4CA,
-            UnseenPathtoHeide = 0x28A,
-            ExileHoldingCells = 0x182,
-            McDuffsWorkshop = 0x1CA,
-            ServantsQuarters = 0x1E2,
-            StraidsCell = 0x16A,
-            TheTowerApart = 0x19A,
-            TheSaltfort = 0x1FA,
-            UpperRamparts = 0x1B2,
-            UndeadRefuge = 0x362,
-            BridgeApproach = 0x37A,
-            UndeadLockaway = 0x392,
-            UndeadPurgatory = 0x3AA,
-            PoisonPool = 0x242,
-            TheMines = 0x212,
-            LowerEarthenPeak = 0x22A,
-            CentralEarthenPeak = 0x25A,
-            UpperEarthenPeak = 0x272,
-            ThresholdBridge = 0x2BA,
-            IronhearthHall = 0x2A2,
-            EygilsIdol = 0x2D2,
-            BelfrySolApproach = 0x2EA,
-            OldAkelarre = 0x482,
-            RuinedForkRoad = 0x4E2,
-            ShadedRuins = 0x4FA,
-            GyrmsRespite = 0x512,
-            OrdealsEnd = 0x52A,
-            RoyalArmyCampsite = 0x10A,
-            ChapelThreshold = 0x122,
-            LowerBrightstoneCove = 0xF2,
-            HarvalsRestingPlace = 0x55A,
-            GraveEntrance = 0x542,
-            UpperGutter = 0x43A,
-            CentralGutter = 0x40A,
-            HiddenChamber = 0x422,
-            BlackGulchMouth = 0x3F2,
-            KingsGate = 0x302,
-            UnderCastleDrangleic = 0x34A,
-            ForgottenChamber = 0x332,
-            CentralCastleDrangleic = 0x31A,
-            TowerofPrayer = 0x92,
-            CrumbledRuins = 0xAA,
-            RhoysRestingPlace = 0xC2,
-            RiseoftheDead = 0xDA,
-            UndeadCryptEntrance = 0x3DA,
-            UndeadDitch = 0x3C2,
-            Foregarden = 0x13A,
-            RitualSite = 0x152,
-            DragonAerie = 0x452,
-            ShrineEntrance = 0x46A,
-            SanctumWalk = 0x572,
-            PriestessChamber = 0x58A,
-            HiddenSanctumChamber = 0x5BA,
-            LairoftheImperfect = 0x5D2,
-            SanctumInterior = 0x5EA,
-            TowerofPrayerDLC = 0x602,
-            SanctumNadir = 0x5A2,
-            ThroneFloor = 0x61A,
-            UpperFloor = 0x64A,
-            Foyer = 0x632,
-            LowermostFloor = 0x67A,
-            TheSmelterThrone = 0x692,
-            IronHallwayEntrance = 0x662,
-            OuterWall = 0x6AA,
-            AbandonedDwelling = 0x6C2,
-            ExpulsionChamber = 0x70A,
-            InnerWall = 0x722,
-            LowerGarrison = 0x6DA,
-            GrandCathedral = 0x6F2
+            CrestfallensRetreat = 0x42,
+            CardinalTower = 0x22,
+            SoldiersRest = 0x32,
+            ThePlaceUnbeknownst = 0x52,
+            HeidesRuin = 0x322,
+            TowerofFlame = 0x312,
+            TheBlueCathedral = 0x332,
+            UnseenPathtoHeide = 0x1B2,
+            ExileHoldingCells = 0x102,
+            McDuffsWorkshop = 0x132,
+            ServantsQuarters = 0x142,
+            StraidsCell = 0xF2,
+            TheTowerApart = 0x112,
+            TheSaltfort = 0x152,
+            UpperRamparts = 0x122,
+            UndeadRefuge = 0x242,
+            BridgeApproach = 0x252,
+            UndeadLockaway = 0x262,
+            UndeadPurgatory = 0x272,
+            PoisonPool = 0x182,
+            TheMines = 0x162,
+            LowerEarthenPeak = 0x172,
+            CentralEarthenPeak = 0x192,
+            UpperEarthenPeak = 0x1A2,
+            ThresholdBridge = 0x1D2,
+            IronhearthHall = 0x1C2,
+            EygilsIdol = 0x1E2,
+            BelfrySolApproach = 0x1F2,
+            OldAkelarre = 0x302,
+            RuinedForkRoad = 0x342,
+            ShadedRuins = 0x352,
+            GyrmsRespite = 0x362,
+            OrdealsEnd = 0x372,
+            RoyalArmyCampsite = 0xB2,
+            ChapelThreshold = 0xC2,
+            LowerBrightstoneCove = 0xA2,
+            HarvalsRestingPlace = 0x392,
+            GraveEntrance = 0x382,
+            UpperGutter = 0x2D2,
+            CentralGutter = 0x2B2,
+            BlackGulchMouth = 0x2A2,
+            HiddenChamber = 0x2C2,
+            KingsGate = 0x202,
+            ForgottenChamber = 0x222,
+            UnderCastleDrangleic = 0x232,
+            CentralCastleDrangleic = 0x212,
+            TowerofPrayerAmana = 0x62,
+            CrumbledRuins = 0x72,
+            RhoysRestingPlace = 0x82,
+            RiseoftheDead = 0x92,
+            UndeadCryptEntrance = 0x292,
+            UndeadDitch = 0x282,
+            Foregarden = 0xD2,
+            RitualSite = 0xE2,
+            DragonAerie = 0x2E2,
+            ShrineEntrance = 0x2F2,
+            SanctumWalk = 0x3A2,
+            TowerofPrayerShulva = 0x402,
+            PriestessChamber = 0x3B2,
+            HiddenSanctumChamber = 0x3D2,
+            LairoftheImperfect = 0x3E2,
+            SanctumInterior = 0x3F2,
+            SanctumNadir = 0x3C2,
+            ThroneFloor = 0x412,
+            UpperFloor = 0x432,
+            Foyer = 0x422,
+            LowermostFloor = 0x452,
+            TheSmelterThrone = 0x462,
+            IronHallwayEntrance = 0x442,
+            OuterWall = 0x472,
+            AbandonedDwelling = 0x482,
+            InnerWall = 0x4C2,
+            LowerGarrison = 0x492,
+            ExpulsionChamber = 0x4B2,
+            GrandCathedral = 0x4A2
         }
         #endregion
 
@@ -353,10 +355,10 @@ namespace DS2_META
         #endregion
 
         #region Internals
-        public const string SpeedFactorAccelOffset = "F3 0F 59 9F A8 02 00 00 F3 0F 10 16";
-        public const string SpeedFactorAnimOffset = "F3 0F 59 99 A8 02 00 00";
-        public const string SpeedFactorJumpOffset = "F3 0F 59 99 A8 02 00 00 F3 0F 10 12 F3 0F 10 42 04 48 8B 89 E0 00 00 00";
-        public const string SpeedFactorBuildupOffset = "F3 0F 59 99 A8 02 00 00 F3 0F 10 12 F3 0F 10 42 04 48 8B 89 E8 03 00 00";
+        public const string SpeedFactorAccelOffset = "F3 0F 10 8E 08 02 00 00 0F 5A C0 0F 5A C9";
+        public const string SpeedFactorAnimOffset = "F3 0F 10 89 08 02 00 00 8B 89 B4 00 00 00 0F 5A C0 0F 5A C9 F2 0F 59 C8 0F 57 C0 66 0F 5A C1 F3 0F 10 4D F4 0F 5A C0 89";
+        public const string SpeedFactorJumpOffset = "F3 0F 10 8E 08 02 00 00 0F 5A C0 0F 5A C9 F2 0F 59 C8";
+        public const string SpeedFactorBuildupOffset = "F3 0F 10 89 08 02 00 00 8B 89 B4 00 00 00 0F 5A C0 0F 5A C9 F2 0F 59 C8 0F 57 C0 66 0F 5A C1 F3 0F 10 4D F4 0F 5A C0 0F 5A C9 F2 0F 59 C1 66 0F 5A C0 89 45 FC F3 0F 11 45 F4 F3 0F 7E 45 F4 8D 45 F4 50 66 0F D6 45 F4 E8 E0";
 
         #endregion
     }

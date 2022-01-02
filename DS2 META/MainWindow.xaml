@@ -120,7 +120,7 @@
                         <local:ItemControl x:Name="metaItems" Hook="{Binding Hook}" GameLoaded="{Binding GameLoaded}"/>
                     </Grid>
                 </TabItem>
-                <!--<TabItem Header="Bonfires">
+                <TabItem Header="Bonfires">
                     <Grid Background="LightGray">
                         <local:BonfireMainControl x:Name="metaBonfire" Hook="{Binding Hook}" GameLoaded="{Binding GameLoaded}"/>
                     </Grid>
@@ -134,7 +134,7 @@
                     <Grid Background="LightGray">
                         <local:InternalControl x:Name="metaInternal" Hook="{Binding Hook}" GameLoaded="{Binding GameLoaded}"/>
                     </Grid>
-                </TabItem>-->
+                </TabItem>
                 <TabItem x:Name="tabSettings" Header="Settings">
                     <Grid Background="LightGray">
                         <TabControl Background="LightGray" Margin="0,10,0,0">

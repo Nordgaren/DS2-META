@@ -145,7 +145,7 @@
   <data name="SpeedFactor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\assembly\speedfactor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SpeedFactorAccel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\assembly\speedfactoraccel.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="SpeedFactorInject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\assembly\speedfactorinject.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

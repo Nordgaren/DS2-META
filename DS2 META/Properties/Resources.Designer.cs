@@ -61,15 +61,12 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  48 83 ec 28             sub    rsp,0x28 
-        ///4:  48 b9 00 00 00 00 ff    movabs rcx,0xffffffff00000000 ;PlayerParam Pointer
-        ///b:  ff ff ff
-        ///e:  48 c7 c2 f4 01 00 00    mov    rdx,0x1f4 ;number of souls
-        ///15: 49 be 00 00 00 00 ff    movabs r14,0xffffffff00000000 ;Give Souls func
-        ///1c: ff ff ff
-        ///1f: 41 ff d6                call   r14
-        ///22: 48 83 c4 28             add    rsp,0x28
-        ///26: c3                      ret .
+        ///   Looks up a localized string similar to sub esp, 0x28
+        ///mov ecx, 0x{0:X}	;PlayerParam pointer
+        ///push 0x{1:X}		;Number of Souls
+        ///call 0x{2:X}		;Give Souls func
+        ///add esp, 0x28
+        ///ret.
         /// </summary>
         internal static string AddSouls {
             get {
@@ -78,19 +75,14 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  48 83 ec 26             sub    rsp,0x26
-        ///4:  48 ba 00 00 00 00 ff    movabs rdx,0xffffffff00000000
-        ///b:  ff ff ff
-        ///e:  48 b9 00 00 00 00 ff    movabs rcx,0xffffffff00000000
-        ///15: ff ff ff
-        ///18: 48 b8 00 00 00 00 ff    movabs rax,0xffffffff00000000
-        ///1f: ff ff ff
-        ///22: f3 0f 10 00             movss  xmm0,DWORD PTR [rax]
-        ///26: f3 0f 11 44 24 1c       movss  DWORD PTR [rsp+0x1c],xmm0
-        ///2c: 48 b8 00 00 00 00 ff    movabs rax,0xffffffff00000000
-        ///33: ff ff ff
-        ///36: ff d0                   call   rax
-        ///38: 48 83 c4 26  [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to ; WIP
+        ///; string.Format(Properties.Resources.ApplySpecialEffect, effectStruct.ToString(&quot;X2&quot;), SpEffectCtrl.Resolve().ToString(&quot;X2&quot;), unk.ToString(&quot;X2&quot;), ApplySpEffect.Resolve().ToString(&quot;X2&quot;));
+        ///sub esp, 0x38
+        ///push 0x{0:X}	  ;EffectStructAddress
+        ///mov ecx, 0x{1:X}  ;SpEffectParam
+        ///call 0x{2:X}	  ;Apply Special Effect
+        ///add esp, 0x38
+        ///ret.
         /// </summary>
         internal static string ApplySpecialEffect {
             get {
@@ -99,19 +91,22 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  48 81 ec 10 01 00 00    sub    rsp,0x110
-        ///7:  48 ba 00 00 00 00 ff    movabs rdx,0xffffffff00000000
-        ///e:  ff ff ff
-        ///11: 0f b7 12                movzx  edx,WORD PTR [rdx]
-        ///14: 48 8d 4c 24 50          lea    rcx,[rsp+0x50]
-        ///19: 41 b8 02 00 00 00       mov    r8d,0x2
-        ///1f: 49 be 00 00 00 00 ff    movabs r14,0xffffffff00000000
-        ///26: ff ff ff
-        ///29: 41 ff d6                call   r14
-        ///2c: 48 b9 00 00 00 00 ff    movabs rcx,0xffffffff00000000
-        ///33: ff ff ff
-        ///36: 48 89 c2                mov    rdx,rax
-        ///39: 49 be 00  [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to mov    ebp, esp
+        ///sub	   esp, 0xb8
+        ///push   0x2
+        ///push   0x{0:X}  
+        ///lea    edx,[ebp + -0x50]
+        ///push   edx
+        ///call   0x{1:X}           ;SetWarpTargetFunc
+        ///mov    ecx, 0x{2:X}      ;BaseA
+        ///mov    edx,[ecx+0x44]
+        ///mov    ecx,[edx+0x38]
+        ///add    esp, 0xc
+        ///lea    eax, [ebp + -0x50]
+        ///push   eax
+        ///call   0x{3:X}           ;WarpFunc
+        ///add    esp, 0xb8
+        ///ret.
         /// </summary>
         internal static string BonfireWarp {
             get {
@@ -142,12 +137,12 @@ namespace DS2_META.Properties {
         ///d:  49 bf 00 00 00 00 ff    movabs r15,0xffffffff00000000 ;Item Struct Address
         ///14: ff ff ff
         ///17: 49 8d 17                lea    rdx,[r15]
-        ///1a: 48 b9 00 00 00 00 ff    movabs rcx,0xffffffff00000000 ;Item bag?
+        ///1a: 48 b9 00 00 00 00 ff    movabs rcx,0xffffffff00000000 ;Item bag
         ///21: ff ff ff
         ///24: 45 31 c9                xor    r9d,r9d
-        ///27: 49 be 00 00 00 00 ff    movabs r14,0xffffffff00000000 ;Call add item function DarkSoulsII.exe+1A8C67
+        ///27: 49 be 00 00 00 00 ff    movabs r14,0xffffffff00000000 
         ///2e: ff ff ff
-        ///31: 41 ff d6          [rest of string was truncated]&quot;;.
+        ///31: 41 ff d6                call   r14					  ;Call add item function [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GiveItemWithMenu {
             get {
@@ -156,17 +151,14 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  48 83 ec 28             sub    rsp,0x28
-        ///4:  41 b8 08 00 00 00       mov    r8d,0x8
-        ///a:  49 bf 00 00 00 00 ff    movabs r15,0xffffffff00000000 ;Item Struct Address
-        ///11: ff ff ff
-        ///14: 49 8d 17                lea    rdx,[r15]
-        ///17: 48 b9 00 00 00 00 ff    movabs rcx,0xffffffff00000000 ;Item bag?
-        ///1e: ff ff ff
-        ///21: 45 31 c9                xor    r9d,r9d
-        ///24: 49 be 00 00 00 00 ff    movabs r14,0xffffffff00000000 ;Call add item function DarkSoulsII.exe+1A8C67
-        ///2b: ff ff ff
-        ///2e: 41 ff d6                call    [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to mov eax, 0x1 ;Items in Struct
+        ///mov edx, 0x{0:X} ;Item Struct
+        ///mov ecx, 0x{1:X} ;Player Inventoy
+        ///push 0x0
+        ///push eax
+        ///push edx
+        ///call 0x{2:X}
+        ///ret.
         /// </summary>
         internal static string GiveItemWithoutMenu {
             get {
@@ -187,10 +179,7 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  f3 0f 59 9f a8 02 00    mulss  xmm3,DWORD PTR [rdi+0x2a8]
-        ///7:  00
-        ///8:  f3 0f 10 16             movss  xmm2,DWORD PTR [rsi]
-        ///c:  f3 0f 10 46 04          movss  xmm0,DWORD PTR [rsi+0x4] .
+        ///   Looks up a localized string similar to movss xmm1,[esi+0x208].
         /// </summary>
         internal static string OgSpeedFactorAccel {
             get {
@@ -199,19 +188,8 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  50                      push   rax
-        ///1:  48 b8 00 00 00 00 ff    movabs rax,0xffffffff00000000
-        ///8:  ff ff ff
-        ///b:  ff d0                   call   rax
-        ///d:  58                      pop    rax
-        ///e:  90                      nop
-        ///f:  90                      nop
-        ///10: 90                      nop
-        ///11: 48 b8 00 00 00 00 ff    movabs rax,0xffffffff00000000
-        ///18: ff ff ff
-        ///1b: f3 0f 59 18             mulss  xmm3,DWORD PTR [rax]
-        ///1f: f3 0f 10 12             movss  xmm2,DWORD PTR [rdx]
-        ///23: f3 0f 10 42 04          movss [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to movss  xmm1, [0x{0:X}] ;New Value
+        ///jmp 0x{1:X} ;return.
         /// </summary>
         internal static string SpeedFactor {
             get {
@@ -220,7 +198,7 @@ namespace DS2_META.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0:  50                      push   rax
+        ///   Looks up a localized string similar to 000:  50                      push   rax
         ///1:  48 b8 00 00 00 00 ff    movabs rax,0xffffffff00000000
         ///8:  ff ff ff
         ///b:  ff d0                   call   rax
@@ -232,11 +210,11 @@ namespace DS2_META.Properties {
         ///18: ff ff ff
         ///1b: f3 0f 59 18             mulss  xmm3,DWORD PTR [rax]
         ///1f: f3 0f 10 16             movss  xmm2,DWORD PTR [rsi]
-        ///23: f3 0f 10 46 04          movss [rest of string was truncated]&quot;;.
+        ///23: f3 0f 10 46 04          mov [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string SpeedFactorAccel {
+        internal static string SpeedFactorInject {
             get {
-                return ResourceManager.GetString("SpeedFactorAccel", resourceCulture);
+                return ResourceManager.GetString("SpeedFactorInject", resourceCulture);
             }
         }
     }

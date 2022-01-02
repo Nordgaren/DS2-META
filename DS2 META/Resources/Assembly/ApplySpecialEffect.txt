@@ -1,6 +1,7 @@
-﻿; string.Format(Properties.Resources.ApplySpecialEffect, effectStruct.ToString("X2"), SpEffectCtrl.Resolve().ToString("X2"), unk.ToString("X2"), ApplySpEffect.Resolve().ToString("X2"));
+﻿; WIP
+; string.Format(Properties.Resources.ApplySpecialEffect, effectStruct.ToString("X2"), SpEffectCtrl.Resolve().ToString("X2"), unk.ToString("X2"), ApplySpEffect.Resolve().ToString("X2"));
 sub esp, 0x38
-push 0x{0:X} 
+push 0x{0:X}	  ;EffectStructAddress
 mov ecx, 0x{1:X}  ;SpEffectParam
 call 0x{2:X}	  ;Apply Special Effect
 add esp, 0x38

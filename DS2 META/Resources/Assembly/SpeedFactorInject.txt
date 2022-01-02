@@ -1,0 +1,4 @@
+﻿jmp 0x{0:X}
+nop
+nop
+nop 

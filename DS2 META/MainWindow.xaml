@@ -226,12 +226,12 @@
                                                 <local:HotkeyControl x:Name="hkeyCreateItem" HotkeyName="Create Item" Margin="0,5,0,0"/>
                                             </StackPanel>
                                         </Border>
-                                        <!--<Label Content="Internal Tab"/>
+                                        <Label Content="Internal Tab"/>
                                         <Border BorderBrush="Gray" BorderThickness="1" >
                                             <StackPanel Margin="5,0,5,5" >
                                                 <local:HotkeyControl x:Name="hkeySpeedFactor" HotkeyName="Speed Factors" Margin="0,5,0,0"/>
                                             </StackPanel>
-                                        </Border>-->
+                                        </Border>
 
 
                                     </StackPanel>

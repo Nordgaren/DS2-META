@@ -30,9 +30,6 @@ namespace DS2_META
 
         private List<SavedPos> Positions = new List<SavedPos>();
 
-        float CamX;
-        float CamY;
-        float CamZ;
         public override void InitTab()
         {
             PlayerState.Set = false;
@@ -76,9 +73,9 @@ namespace DS2_META
             {
                 var pos = new SavedPos();
                 pos.Name = cmbStoredPositions.Text;
-                nudPosStoredX.Value = (decimal)Hook.PosX;
-                nudPosStoredY.Value = (decimal)Hook.PosY;
-                nudPosStoredZ.Value = (decimal)Hook.PosZ;
+                nudPosStoredX.Value = (decimal)Hook.StableX;
+                nudPosStoredY.Value = (decimal)Hook.StableY;
+                nudPosStoredZ.Value = (decimal)Hook.StableZ;
                 PlayerState.AngX = Hook.AngX;
                 PlayerState.AngY = Hook.AngY;
                 PlayerState.AngZ = Hook.AngZ;
@@ -87,12 +84,9 @@ namespace DS2_META
                 //PlayerState.FollowCam = Hook.CameraData;
                 //PlayerState.FollowCam2 = Hook.CameraData2;
                 PlayerState.Set = true;
-                //CamX = Hook.CamX;
-                //CamY = Hook.CamY;
-                //CamZ = Hook.CamZ;
-                pos.X = Hook.PosX;
-                pos.Y = Hook.PosY;
-                pos.Z = Hook.PosZ;
+                pos.X = Hook.StableX;
+                pos.Y = Hook.StableY;
+                pos.Z = Hook.StableZ;
                 pos.PlayerState = PlayerState;
                 ProcessSavedPos(pos);
                 UpdatePositions();
@@ -168,9 +162,6 @@ namespace DS2_META
                 Hook.AngY = PlayerState.AngY;
                 Hook.AngZ = PlayerState.AngZ;
                 //Hook.CameraData = PlayerState.FollowCam;
-                //Hook.CamX = CamX;
-                //Hook.CamY = CamY;
-                //Hook.CamZ = CamZ;
                 if (cbxRestoreState.IsChecked.Value)
                 {
                     nudHealth.Value = PlayerState.HP;

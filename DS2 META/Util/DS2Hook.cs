@@ -3104,7 +3104,7 @@ namespace DS2_META
                     InjectSpeedFactor(SpeedFactorBuildup, ref BuildupSpeedPtr, ref BuildupSpeedCodePtr, Properties.Settings.Default.BuildupSpeed);
                 else
                 {
-                    RepairSpeedFactor(SpeedFactorBuildup, BuildupSpeedPtr, BuildupSpeedCodePtr, Properties.Resources.OgSpeedFactor);
+                    RepairSpeedFactor(SpeedFactorBuildup, BuildupSpeedPtr, BuildupSpeedCodePtr, Properties.Resources.OgSpeedFactorAccel);
                     BuildupSpeedPtr = IntPtr.Zero;
                     BuildupSpeedCodePtr = IntPtr.Zero;
                 }

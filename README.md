@@ -35,11 +35,23 @@ A
 
 [Octokit](https://github.com/octokit/octokit.net) by [Octokit](https://github.com/octokit) team  
 
-[LowLevelHooking](https://github.com/jnm2/LowLevelHooking) by [Joseph Musser](https://github.com/jnm2)  
+[GlobalHotkeys](https://github.com/mrousavy/Hotkeys) by [Marc Rousavy](https://github.com/mrousavy)  
 
 [Fasm.NET](https://github.com/JamesMenetrey/Fasm.NET) by [James Menetrey](https://github.com/JamesMenetrey)  
 
 # Change Log  
+### Beta 0.2  
+
+* Program is now up to date with it's Scholar counterpart, except missing the Apply Special Effect function (Used to apply bonfire rest when warping and in the "Restore Humanity" button).  I will keep looking for it.  
+
+* New Hotkey system using GlobalHotkeys library. Should fix issue with input delaying game
+
+* Optimized GetHeld method, which should make looking up items in player inventory faster. Could use feedback from anyone who previously couldn't use the live inventory update feature.  
+
+* Added check to make sure you have right version of the game loaded.  
+
+* Changed to using Stable position in the player position restore system  
+
 ### Beta 0.0.0.5  
 
 * Player and Stats tab implemented    

@@ -52,12 +52,12 @@ namespace DS2_META
                     metaPlayer.cbxSpeed.IsChecked = !metaPlayer.cbxSpeed.IsChecked.Value;
             }, this));
 
-            //Hotkeys.Add(new METAHotkey("ToggleSpeedFactors", hkeySpeedFactor.tbxHotkey, tabHotkeys, (hotkey) =>
-            //{
-            //    metaInternal.cbxSpeeds.IsChecked = !metaInternal.cbxSpeeds.IsChecked.Value;
-            //    metaPlayer.cbxSpeed.IsChecked = false;
-            //    metaPlayer.cbxSpeed.IsEnabled = !metaInternal.cbxSpeeds.IsChecked.Value;
-            //}, this));
+            Hotkeys.Add(new METAHotkey("ToggleSpeedFactors", hkeySpeedFactor.tbxHotkey, tabHotkeys, (hotkey) =>
+            {
+                metaInternal.cbxSpeeds.IsChecked = !metaInternal.cbxSpeeds.IsChecked.Value;
+                metaPlayer.cbxSpeed.IsChecked = false;
+                metaPlayer.cbxSpeed.IsEnabled = !metaInternal.cbxSpeeds.IsChecked.Value;
+            }, this));
 
             Hotkeys.Add(new METAHotkey("Warp", hkeyWarp.tbxHotkey, tabHotkeys, (hotkey) =>
             {

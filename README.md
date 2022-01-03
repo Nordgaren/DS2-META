@@ -42,7 +42,9 @@ A
 # Change Log  
 ### Beta 0.2  
 
-* Program is now up to date with it's Scholar counterpart, except missing the Apply Special Effect function (Used to apply bonfire rest when warping and in the "Restore Humanity" button).  I will keep looking for it.  
+* Program is now up to date with it's Scholar counterpart, except missing the Apply Special Effect function (Used to apply bonfire rest when warping and in the "Restore Humanity" button). I will keep looking for it.  
+
+* Brotherhood of blood "Rank" is still uncertain. "Progress" is in the table, but COULD be wrong. Just not 100% sure. Anyone who has a character they can see this with, please make an issue with what you find (correct or incorrect).  
 
 * New Hotkey system using GlobalHotkeys library. Should fix issue with input delaying game
 

@@ -1,6 +1,6 @@
 # DS2 META  
  Dark Souls 2 testing/debugging/practice tool  
- Based on a CE table by [Lord Radai](https://github.com/LordRadai)  
+ Based on a CE table by [Atvaark](https://github.com/Atvaark)  
  
  Inspired by [DS-Gadget 3.0](https://github.com/JKAnderson/DS-Gadget) and uses [Property Hook](https://github.com/JKAnderson/PropertyHook) by [TKGP](https://github.com/JKAnderson/).  
  

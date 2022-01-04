@@ -303,6 +303,9 @@
       <DependentUpon>HotkeyControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\User32.cs" />
+    <Content Include="Resources\DLLs\Speedhack.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Assembly\SpeedFactorInject.txt" />
     <None Include="Resources\Systems\Covenants.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

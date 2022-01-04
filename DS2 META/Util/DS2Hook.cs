@@ -167,6 +167,7 @@ namespace DS2_META
             ItemParamOffsetDict = BuildOffsetDictionary(ItemParam, "ITEM_PARAM");
             ItemUsageParamOffsetDict = BuildOffsetDictionary(ItemUseageParam, "ITEM_USAGE_PARAM");
             UpdateStatsProperties();
+            GetSpeedhackOffsets(SpeedhackDllPath);
             Setup = true;
         }
         private void DS2Hook_OnUnhooked(object sender, PHEventArgs e)
@@ -655,9 +656,64 @@ namespace DS2_META
             Free(effectStruct);
         }
 
-#endregion
+        static string SpeedhackDllPath = $"{GetTxtResourceClass.ExeDir}/Resources/DLLs/Speedhack.dll";
+        public IntPtr SpeedhackDllPtr;
+        IntPtr SetupPtr;
+        IntPtr SetSpeedPtr;
+        IntPtr DetachPtr;
+        internal void Speedhack(bool enable)
+        {
+            if (enable)
+                EnableSpeedhack();
+            else
+                DisableSpeedhack();
+        }
 
-#region Stats
+        public void DisableSpeedhack()
+        {
+            IntPtr detach = (IntPtr)(SpeedhackDllPtr.ToInt64() + DetachPtr.ToInt64());
+            Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, detach, IntPtr.Zero, 0, IntPtr.Zero);
+        }
+
+        private void EnableSpeedhack()
+        {
+            IntPtr thread = IntPtr.Zero;
+            if (SpeedhackDllPtr == IntPtr.Zero)
+            {
+                SpeedhackDllPtr = InjectDLL(SpeedhackDllPath);
+            }
+
+            IntPtr setup = (IntPtr)(SpeedhackDllPtr.ToInt64() + SetupPtr.ToInt64());
+            thread = Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, setup, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.WaitForSingleObject(thread, uint.MaxValue);
+            SetSpeed((float)Properties.Settings.Default.SpeedValue);
+        }
+
+        public void SetSpeed(float value)
+        {
+            IntPtr setSpeed = (IntPtr)(SpeedhackDllPtr.ToInt64() + SetSpeedPtr.ToInt64());
+            IntPtr valueAddress = GetPrefferedIntPtr(sizeof(float), SpeedhackDllPtr);
+            Kernel32.WriteBytes(Handle, valueAddress, BitConverter.GetBytes(value));
+            var thread = Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, setSpeed, valueAddress, 0, IntPtr.Zero);
+            Kernel32.WaitForSingleObject(thread, uint.MaxValue);
+            Free(valueAddress);
+        }
+
+        private void GetSpeedhackOffsets(string path)
+        {
+            var lib = Kernel32.LoadLibrary(path);
+            var setupOffset = Kernel32.GetProcAddress(lib, "Setup").ToInt64() - lib.ToInt64();
+            var setSpeedOffset = Kernel32.GetProcAddress(lib, "SetSpeed").ToInt64() - lib.ToInt64();
+            var detachOffset = Kernel32.GetProcAddress(lib, "Detach").ToInt64() - lib.ToInt64();
+            SetupPtr = (IntPtr)setupOffset;
+            SetSpeedPtr = (IntPtr)setSpeedOffset;
+            DetachPtr = (IntPtr)detachOffset;
+            Free(lib);
+        }
+
+        #endregion
+
+        #region Stats
         public string Name
         {
             get => Loaded ? GameDataManager.ReadString((int)DS2Offsets.PlayerName.Name, Encoding.Unicode, 0x1F) : "";

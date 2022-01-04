@@ -40,6 +40,10 @@ A
 [Fasm.NET](https://github.com/JamesMenetrey/Fasm.NET) by [James Menetrey](https://github.com/JamesMenetrey)  
 
 # Change Log  
+### Beta 0.3  
+
+* Modify Speed on the Player tab is now equivilent to Cheat Engine Speedhack. If you want to just modify your own speed, use the speeds in Internals tab.  
+
 ### Beta 0.2  
 
 * Program is now up to date with it's Scholar counterpart, except missing the Apply Special Effect function (Used to apply bonfire rest when warping and in the "Restore Humanity" button). I will keep looking for it.  

@@ -17,6 +17,7 @@ A
 
 ## Requirements  
 * [.NET 4.7.2](https://www.microsoft.com/net/download/thank-you/net472)  
+* [VC Redist 2012 x86](https://www.microsoft.com/en-us/download/details.aspx?id=30679)  
 
 ## Installing  
 * Extract contents of zip archive to it's own folder. You may have to run as admin if DS2S META crashes  

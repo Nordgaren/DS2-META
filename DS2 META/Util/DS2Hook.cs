@@ -186,30 +186,15 @@ namespace DS2_META
         {
             // Assemble once to determine size
             byte[] bytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
-            PrintByte(bytes);
-            Debug.WriteLine("");
             IntPtr insertPtr = Allocate((uint)bytes.Length, Kernel32.PAGE_EXECUTE_READWRITE);
             // Then rebase and inject
             // Note: you can't use String.Format here because IntPtr is not IFormattable
             bytes = FasmNet.Assemble("use32\norg 0x" + insertPtr.ToString("X") + "\n" + asm);
-            PrintByte(bytes);
             Kernel32.WriteBytes(Handle, insertPtr, bytes);
             Execute(insertPtr);
             Free(insertPtr);
         }
 
-        private void PrintByte(byte[] bytes)
-        {
-#if DEBUG
-
-            foreach (var b in bytes)
-            {
-                Debug.Write($"{b.ToString("X2")} ");
-            }
-            Debug.WriteLine("");
-            Debug.WriteLine("");
-#endif
-        }
         public void UpdateName()
         {
             OnPropertyChanged(nameof(Name));
@@ -3170,7 +3155,6 @@ namespace DS2_META
         private void RepairSpeedFactor(PHPointer speedFactorPointer, IntPtr valuePointer, IntPtr codePointer, string asm)
         {
             var asmBytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
-            PrintByte(asmBytes);
             speedFactorPointer.WriteBytes(0x0, asmBytes);
             Free(valuePointer);
             Free(codePointer);

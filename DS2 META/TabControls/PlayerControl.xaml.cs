@@ -262,13 +262,16 @@ namespace DS2_META
             nudSpeed.IsEnabled = cbxSpeed.IsChecked.Value;
             Hook.Speedhack(cbxSpeed.IsChecked.Value);
         }
-
+        
         private void nudSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (GameLoaded && Hook.Hooked)
                 Hook.SetSpeed((float)nudSpeed.Value);
         }
-
+        private void nudSpeed_LostFocus(object sender, RoutedEventArgs e)
+        {
+            nudSpeed_ValueChanged(null, null);
+        }
         private void cbxBonfire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Hook.Loaded && cbxQuickSelectBonfire.IsChecked.Value)
@@ -384,5 +387,7 @@ namespace DS2_META
             txtSearch.Focus();
             e.Handled=true;
         }
+
+        
     }
 }

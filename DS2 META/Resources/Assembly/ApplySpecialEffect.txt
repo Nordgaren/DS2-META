@@ -1,8 +1,13 @@
-﻿; WIP
-; string.Format(Properties.Resources.ApplySpecialEffect, effectStruct.ToString("X2"), SpEffectCtrl.Resolve().ToString("X2"), unk.ToString("X2"), ApplySpEffect.Resolve().ToString("X2"));
-sub esp, 0x38
-push 0x{0:X}	  ;EffectStructAddress
-mov ecx, 0x{1:X}  ;SpEffectParam
-call 0x{2:X}	  ;Apply Special Effect
-add esp, 0x38
+﻿mov ebp, esp
+sub esp, 0x18
+mov dword[ebp - 0x18],0x{0:X}    ;Effect ID
+mov dword[ebp - 0x14],0x1
+movss xmm0,[0x{1:X}]
+movss dword[ebp - 0x10],xmm0
+mov word[ebp - 0x0C],0x219
+lea eax, [ebp - 0x18]
+push eax
+mov ecx,0x{2:X}           ;ChrSpEffectCtrl
+call 0x{3:X}              ;ApplyEffect
+add esp, 0x18
 ret

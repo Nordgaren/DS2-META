@@ -175,7 +175,7 @@ namespace DS2_META
         }
 
         public const int SpEffectCtrlOffset = 0x308;
-        public const string ApplySpEffectAoB = "55 8B EC 53 56 8B D9 8B 73 1C 57";
+        public const string ApplySpEffectAoB = "E9 ? ? ? ? 8B 45 F4 83 C0 01 89 45 F4 E9 ? ? ? ?";
 
         public const int CharacterFlagsOffset = 0x490;
 

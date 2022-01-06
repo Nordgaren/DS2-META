@@ -631,14 +631,12 @@ namespace DS2_META
 
         internal void ApplySpecialEffect(int spEffect)
         {
-            var effectStruct = Allocate(0x16);
-            Kernel32.WriteBytes(Handle, effectStruct, BitConverter.GetBytes(spEffect));
-            Kernel32.WriteBytes(Handle, effectStruct + 0x4, BitConverter.GetBytes(0x1));
-            Kernel32.WriteBytes(Handle, effectStruct + 0xC, BitConverter.GetBytes(0x219));
+            var unk = Allocate(sizeof(float));
+            Kernel32.WriteBytes(Handle, unk, BitConverter.GetBytes(-1f));
 
-            var asm = string.Format(Properties.Resources.ApplySpecialEffect, effectStruct.ToString("X2"), SpEffectCtrl.Resolve().ToString("X2"), ApplySpEffect.Resolve().ToString("X2"));
+            var asm = string.Format(Properties.Resources.ApplySpecialEffect, spEffect.ToString("X2"), unk.ToString("X2"), SpEffectCtrl.Resolve().ToString("X2"), ApplySpEffect.Resolve().ToString("X2"));
             AsmExecute(asm);
-            Free(effectStruct);
+            Free(unk);
         }
 
         static string SpeedhackDllPath = $"{GetTxtResourceClass.ExeDir}/Resources/DLLs/Speedhack.dll";

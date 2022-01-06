@@ -388,9 +388,15 @@ namespace DS2_META
             return pointer.ReadIntPtr(0x0121D4D0 + DS2Offsets.BasePtrOffset2);
         }
 
+        public byte FastQuit
+        {
+            set
+            {
+                BaseA.WriteByte((int)DS2Offsets.ForceQuit.Quit, value);
+            }
+        }
 
-
-#region Player
+        #region Player
         public int Health
         {
             get => Loaded ? PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerCtrl.HP) : 0;

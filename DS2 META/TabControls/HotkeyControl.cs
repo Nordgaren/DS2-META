@@ -67,7 +67,10 @@ namespace DS2_META
             {
                 metaItems.CreateItem();
             }, this));
-
+            Hotkeys.Add(new METAHotkey("FastQuit", hkeyFastQuit.tbxHotkey, tabHotkeys, (hotkey) =>
+            {
+                Hook.FastQuit = 6;
+            }, this));
         }
 
         private void SaveHotkeys()

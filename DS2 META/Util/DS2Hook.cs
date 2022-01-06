@@ -41,6 +41,7 @@ namespace DS2_META
         private PHPointer GiveSoulsFunc;
         private PHPointer ItemGiveFunc;
         private PHPointer ItemStruct2dDisplay;
+        private PHPointer PointerArray;
         private PHPointer DisplayItem;
         private PHPointer SetWarpTargetFunc;
         private PHPointer WarpManager;
@@ -102,8 +103,8 @@ namespace DS2_META
             SpeedFactorJump = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorJumpOffset);
             SpeedFactorBuildup = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorBuildupOffset);
             GiveSoulsFunc = RegisterAbsoluteAOB(DS2Offsets.GiveSoulsFuncAoB);
-            //ItemStruct2dDisplay = RegisterAbsoluteAOB(DS2Offsets.ItemStruct2dDisplay);
-            //DisplayItem = RegisterAbsoluteAOB(DS2Offsets.DisplayItem); 
+            ItemStruct2dDisplay = RegisterAbsoluteAOB(DS2Offsets.ItemStruct2dDisplay);
+            DisplayItem = RegisterAbsoluteAOB(DS2Offsets.DisplayItem); 
             SetWarpTargetFunc = RegisterAbsoluteAOB(DS2Offsets.SetWarpTargetFuncAoB);
             ApplySpEffect = RegisterAbsoluteAOB(DS2Offsets.ApplySpEffectAoB);
             WarpFunc = RegisterAbsoluteAOB(DS2Offsets.WarpFuncAoB);
@@ -112,8 +113,9 @@ namespace DS2_META
             GameDataManager = CreateChildPointer(BaseA, (int)DS2Offsets.GameDataManagerOffset);
             ItemGiveFunc = RegisterAbsoluteAOB(DS2Offsets.ItemGiveFunc);
             AvailableItemBag = CreateChildPointer(GameDataManager, (int)DS2Offsets.AvailableItemBagOffset, (int)DS2Offsets.AvailableItemBagOffset);
-            //ItemGiveWindow = CreateChildPointer(BaseA, (int)DS2Offsets.ItemGiveWindowPointer);
+            ItemGiveWindow = CreateChildPointer(BaseA, (int)DS2Offsets.ItemGiveWindowPointer);
             PlayerBaseMisc = CreateChildPointer(GameDataManager, (int)DS2Offsets.PlayerBaseMiscOffset);
+            PointerArray = CreateChildPointer(GameDataManager, (int)DS2Offsets.PointerArrayOffset1, (int)DS2Offsets.PointerArrayOffset2, (int)DS2Offsets.PointerArrayOffset3);
             PlayerCtrl = CreateChildPointer(BaseA, (int)DS2Offsets.PlayerCtrlOffset);
             Equipment = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.EquipmentOffset1, (int)DS2Offsets.EquipmentOffset2);
             PlayerPosition = CreateChildPointer(PlayerCtrl, (int)DS2Offsets.PlayerPositionOffset1, (int)DS2Offsets.PlayerPositionOffset2);
@@ -615,14 +617,6 @@ namespace DS2_META
             var value = Allocate(sizeof(short));
             Kernel32.WriteBytes(Handle, value, BitConverter.GetBytes(id));
             var asm = string.Format(Properties.Resources.BonfireWarp, id.ToString("X2"), SetWarpTargetFunc.Resolve().ToString("X2"), BaseA.Resolve().ToString("X2"), WarpFunc.Resolve().ToString("X2"));
-            //var bytes = BitConverter.GetBytes(value.ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x9, bytes.Length);
-            //bytes = BitConverter.GetBytes(SetWarpTargetFunc.Resolve().ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x21, bytes.Length);
-            //bytes = BitConverter.GetBytes(WarpManager.Resolve().ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x2E, bytes.Length);
-            //bytes = BitConverter.GetBytes(WarpFunc.Resolve().ToInt64());
-            //Array.Copy(bytes, 0x0, asm, 0x3B, bytes.Length);
 
             var warped = false;
             if (!Multiplayer)
@@ -942,41 +936,20 @@ namespace DS2_META
 
         private void GiveItem(int item, short amount, byte upgrade, byte infusion)
         {
-            GiveItemSilently(item, amount, upgrade, infusion);
-            return;
+            //GiveItemSilently(item, amount, upgrade, infusion);
+            //return;
 
             var itemStruct = Allocate(0x8A);
-
             Kernel32.WriteBytes(Handle, itemStruct + 0x4, BitConverter.GetBytes(item));
             Kernel32.WriteBytes(Handle, itemStruct + 0x8, BitConverter.GetBytes(float.MaxValue));
             Kernel32.WriteBytes(Handle, itemStruct + 0xC, BitConverter.GetBytes(amount));
             Kernel32.WriteByte(Handle, itemStruct + 0xE, upgrade);
             Kernel32.WriteByte(Handle, itemStruct + 0xF, infusion);
 
-            var asm = string.Format(Properties.Resources.GiveItemWithMenu, itemStruct.ToString("X2"), AvailableItemBag.Resolve().ToString("X2"), ItemGiveFunc.Resolve().ToString("X2"),
-                itemStruct.ToInt64(), ItemStruct2dDisplay.Resolve().ToInt64(), ItemGiveWindow.Resolve().ToInt64(), DisplayItem.Resolve().ToInt64());
+            var asm = string.Format(Properties.Resources.GiveItemWithMenu, itemStruct.ToString("X2"), AvailableItemBag.Resolve().ToString("X2"), ItemGiveFunc.Resolve().ToString("X2"), ItemStruct2dDisplay.Resolve().ToString("X2"), 
+                ItemGiveWindow.Resolve().ToString("X2"), DisplayItem.Resolve().ToString("X2"), (PointerArray.Resolve() + (int)DS2Offsets.PointerArrayOffset4).ToString("X2"));
             AsmExecute(asm);
             Free(itemStruct);
-
-            //var bytes = BitConverter.GetBytes(0x1);
-            //Array.Copy(bytes, 0, asm, 0x9, 4);
-            //bytes = BitConverter.GetBytes(itemStruct.ToInt64());
-            //Array.Copy(bytes, 0, asm, 0xF, 8);
-            //bytes = BitConverter.GetBytes(AvailableItemBag.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x1C, 8);
-            //bytes = BitConverter.GetBytes(ItemGiveFunc.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x29, 8);
-            //bytes = BitConverter.GetBytes(0x1);
-            //Array.Copy(bytes, 0, asm, 0x36, 4);
-            //bytes = BitConverter.GetBytes(itemStruct.ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x3C, 8);
-            //bytes = BitConverter.GetBytes(ItemStruct2dDisplay.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x54, 8);
-            //bytes = BitConverter.GetBytes(ItemGiveWindow.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x66, 8);
-            //bytes = BitConverter.GetBytes(DisplayItem.Resolve().ToInt64());
-            //Array.Copy(bytes, 0, asm, 0x70, 8);
-
         }
 
         private void GiveItemSilently(int item, short amount, byte upgrade, byte infusion)

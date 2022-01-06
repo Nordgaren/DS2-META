@@ -49,6 +49,8 @@ My fork of [Property Hook](https://github.com/Nordgaren/PropertyHook) by [TKGP](
 
 * Added fast quit hotkey  
 
+* Added Apply Effect functionality  
+
 ### Beta 0.3  
 
 * Modify Speed on the Player tab is now equivilent to Cheat Engine Speedhack. If you want to just modify your own speed, use the speeds in Internals tab.  

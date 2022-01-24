@@ -669,6 +669,7 @@ namespace DS2_META
             IntPtr setup = (IntPtr)(SpeedhackDllPtr.ToInt64() + SetupPtr.ToInt64());
             thread = Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, setup, IntPtr.Zero, 0, IntPtr.Zero);
             Kernel32.WaitForSingleObject(thread, uint.MaxValue);
+            Kernel32.CloseHandle(thread);
             SetSpeed((float)Properties.Settings.Default.SpeedValue);
         }
 
@@ -679,6 +680,7 @@ namespace DS2_META
             Kernel32.WriteBytes(Handle, valueAddress, BitConverter.GetBytes(value));
             var thread = Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, setSpeed, valueAddress, 0, IntPtr.Zero);
             Kernel32.WaitForSingleObject(thread, uint.MaxValue);
+            Kernel32.CloseHandle(thread);
             Free(valueAddress);
         }
 

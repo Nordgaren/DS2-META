@@ -1,12 +1,15 @@
-﻿mov eax, 0x1 ;Items in Struct
+﻿;begin:
+;jmp begin
+mov eax, 0x1 ;Items in Struct
 mov edx, 0x{0:X} ;Item Struct
 mov ecx, 0x{1:X} ;Player Inventoy
 push 0x0
 push eax
 push edx
 call 0x{2:X}
+mov ecx, 0x1
 push 0x1
-push 0x1
+push ecx
 mov edx, 0x{0:X} ;Item Struct
 push edx
 lea eax, [0x{6:X}]

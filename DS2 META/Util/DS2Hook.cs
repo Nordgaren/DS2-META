@@ -1,4 +1,5 @@
 ﻿using Binarysharp.Assemblers.Fasm;
+using Keystone;
 using PropertyHook;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,9 @@ namespace DS2_META
         }
 
         public static bool Reading { get; set; }
+
+        //Engine Engine = new Engine(Architecture.X86, Mode.X32);
+
 
         private PHPointer BaseASetup;
         private PHPointer GiveSoulsFunc;
@@ -152,15 +156,6 @@ namespace DS2_META
         {
             Version = "Vanilla";
 
-            var baseA = BaseA.Resolve();
-            var levelUpSoulsParam = LevelUpSoulsParam.Resolve();
-            var weaponParam = WeaponParam.Resolve();
-            var weaponReinforceParam = WeaponReinforceParam.Resolve();
-            var customAttrSpecParam = CustomAttrSpecParam.Resolve();
-            var armorReinforceParam = ArmorReinforceParam.Resolve();
-            var itemParam = ItemParam.Resolve();
-            var itemUsageParam = ItemUseageParam.Resolve();
-
             GetLevelRequirements();
             WeaponParamOffsetDict = BuildOffsetDictionary(WeaponParam, "WEAPON_PARAM");
             WeaponReinforceParamOffsetDict = BuildOffsetDictionary(WeaponReinforceParam, "WEAPON_REINFORCE_PARAM");
@@ -187,14 +182,37 @@ namespace DS2_META
         private void AsmExecute(string asm)
         {
             // Assemble once to determine size
-            byte[] bytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
+            byte[] bytes = Engine.Assemble(asm, 0).Buffer;
+            byte[] oldBytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
+            Debug.WriteLine("Initial");
+            Debug.WriteLine(CheckBytes(bytes, oldBytes));
             IntPtr insertPtr = Allocate((uint)bytes.Length, Kernel32.PAGE_EXECUTE_READWRITE);
             // Then rebase and inject
             // Note: you can't use String.Format here because IntPtr is not IFormattable
-            bytes = FasmNet.Assemble("use32\norg 0x" + insertPtr.ToString("X") + "\n" + asm);
+            bytes = Engine.Assemble(asm, (ulong)insertPtr.ToInt64()).Buffer;
+            Debug.WriteLine("lol");
+            Debug.WriteLine(CheckBytes(bytes, oldBytes));
+            oldBytes = FasmNet.Assemble("use32\norg 0x" + insertPtr.ToString("X") + "\n" + asm);
+            Debug.WriteLine("Final");
+            Debug.WriteLine(CheckBytes(bytes, oldBytes));
             Kernel32.WriteBytes(Handle, insertPtr, bytes);
+
             Execute(insertPtr);
             Free(insertPtr);
+        }
+
+        private bool CheckBytes(byte[] bytes, byte[] oldBytes)
+        {
+            if (bytes.Length != oldBytes.Length)
+                return false;
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                if (!bytes[i].Equals(oldBytes[i]))
+                    return false;
+            }
+
+            return true;
         }
 
         public void UpdateName()
@@ -938,8 +956,8 @@ namespace DS2_META
 
         private void GiveItem(int item, short amount, byte upgrade, byte infusion)
         {
-            //GiveItemSilently(item, amount, upgrade, infusion);
-            //return;
+            GiveItemSilently(item, amount, upgrade, infusion);
+            return;
 
             var itemStruct = Allocate(0x8A);
             Kernel32.WriteBytes(Handle, itemStruct + 0x4, BitConverter.GetBytes(item));

@@ -1,5 +1,4 @@
 ﻿using Binarysharp.Assemblers.Fasm;
-using Keystone;
 using PropertyHook;
 using System;
 using System.Collections.Generic;
@@ -26,9 +25,9 @@ namespace DS2_META
         public string ID => Process?.Id.ToString() ?? "Not Hooked";
 
         private string _version;
-        public string Version 
-        { 
-            get =>_version;
+        public string Version
+        {
+            get => _version;
             private set
             {
                 _version = value;
@@ -37,9 +36,6 @@ namespace DS2_META
         }
 
         public static bool Reading { get; set; }
-
-        //Engine Engine = new Engine(Architecture.X86, Mode.X32);
-
 
         private PHPointer BaseASetup;
         private PHPointer GiveSoulsFunc;
@@ -108,7 +104,7 @@ namespace DS2_META
             SpeedFactorBuildup = RegisterAbsoluteAOB(DS2Offsets.SpeedFactorBuildupOffset);
             GiveSoulsFunc = RegisterAbsoluteAOB(DS2Offsets.GiveSoulsFuncAoB);
             ItemStruct2dDisplay = RegisterAbsoluteAOB(DS2Offsets.ItemStruct2dDisplay);
-            DisplayItem = RegisterAbsoluteAOB(DS2Offsets.DisplayItem); 
+            DisplayItem = RegisterAbsoluteAOB(DS2Offsets.DisplayItem);
             SetWarpTargetFunc = RegisterAbsoluteAOB(DS2Offsets.SetWarpTargetFuncAoB);
             ApplySpEffect = RegisterAbsoluteAOB(DS2Offsets.ApplySpEffectAoB);
             WarpFunc = RegisterAbsoluteAOB(DS2Offsets.WarpFuncAoB);
@@ -156,6 +152,15 @@ namespace DS2_META
         {
             Version = "Vanilla";
 
+            var baseA = BaseA.Resolve();
+            var levelUpSoulsParam = LevelUpSoulsParam.Resolve();
+            var weaponParam = WeaponParam.Resolve();
+            var weaponReinforceParam = WeaponReinforceParam.Resolve();
+            var customAttrSpecParam = CustomAttrSpecParam.Resolve();
+            var armorReinforceParam = ArmorReinforceParam.Resolve();
+            var itemParam = ItemParam.Resolve();
+            var itemUsageParam = ItemUseageParam.Resolve();
+
             GetLevelRequirements();
             WeaponParamOffsetDict = BuildOffsetDictionary(WeaponParam, "WEAPON_PARAM");
             WeaponReinforceParamOffsetDict = BuildOffsetDictionary(WeaponReinforceParam, "WEAPON_REINFORCE_PARAM");
@@ -182,37 +187,14 @@ namespace DS2_META
         private void AsmExecute(string asm)
         {
             // Assemble once to determine size
-            byte[] bytes = Engine.Assemble(asm, 0).Buffer;
-            byte[] oldBytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
-            Debug.WriteLine("Initial");
-            Debug.WriteLine(CheckBytes(bytes, oldBytes));
+            byte[] bytes = FasmNet.Assemble("use32\norg 0x0\n" + asm);
             IntPtr insertPtr = Allocate((uint)bytes.Length, Kernel32.PAGE_EXECUTE_READWRITE);
             // Then rebase and inject
             // Note: you can't use String.Format here because IntPtr is not IFormattable
-            bytes = Engine.Assemble(asm, (ulong)insertPtr.ToInt64()).Buffer;
-            Debug.WriteLine("lol");
-            Debug.WriteLine(CheckBytes(bytes, oldBytes));
-            oldBytes = FasmNet.Assemble("use32\norg 0x" + insertPtr.ToString("X") + "\n" + asm);
-            Debug.WriteLine("Final");
-            Debug.WriteLine(CheckBytes(bytes, oldBytes));
+            bytes = FasmNet.Assemble("use32\norg 0x" + insertPtr.ToString("X") + "\n" + asm);
             Kernel32.WriteBytes(Handle, insertPtr, bytes);
-
             Execute(insertPtr);
             Free(insertPtr);
-        }
-
-        private bool CheckBytes(byte[] bytes, byte[] oldBytes)
-        {
-            if (bytes.Length != oldBytes.Length)
-                return false;
-
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                if (!bytes[i].Equals(oldBytes[i]))
-                    return false;
-            }
-
-            return true;
         }
 
         public void UpdateName()
@@ -420,7 +402,7 @@ namespace DS2_META
         public int Health
         {
             get => Loaded ? PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerCtrl.HP) : 0;
-            set 
+            set
             {
                 if (Reading || !Loaded) return;
                 PlayerCtrl.WriteInt32((int)DS2Offsets.PlayerCtrl.HP, value);
@@ -433,7 +415,7 @@ namespace DS2_META
         }
         public int HealthCap
         {
-            get 
+            get
             {
                 if (!Loaded) return 0;
                 var cap = PlayerCtrl.ReadInt32((int)DS2Offsets.PlayerCtrl.HPCap);
@@ -444,8 +426,8 @@ namespace DS2_META
         public float Stamina
         {
             get => Loaded ? PlayerCtrl.ReadSingle((int)DS2Offsets.PlayerCtrl.SP) : 0;
-            set 
-            { 
+            set
+            {
                 if (Reading || !Loaded) return;
                 PlayerCtrl.WriteSingle((int)DS2Offsets.PlayerCtrl.SP, value);
             }
@@ -581,10 +563,10 @@ namespace DS2_META
         }
         public float Speed
         {
-            set 
+            set
             {
                 if (!Loaded) return;
-                PlayerCtrl.WriteSingle((int)DS2Offsets.PlayerCtrl.SpeedModifier, value); 
+                PlayerCtrl.WriteSingle((int)DS2Offsets.PlayerCtrl.SpeedModifier, value);
             }
         }
         public bool Gravity
@@ -622,7 +604,7 @@ namespace DS2_META
 
         public bool Online
         {
-            get =>  ConnectionType > 0;
+            get => ConnectionType > 0;
         }
 
         public int ConnectionType
@@ -786,8 +768,8 @@ namespace DS2_META
         public short Endurance
         {
             get => Loaded ? PlayerParam.ReadInt16((int)DS2Offsets.Attributes.END) : (short)0;
-            set 
-            { 
+            set
+            {
                 if (Reading || !Loaded) return;
                 PlayerParam.WriteInt16((int)DS2Offsets.Attributes.END, value);
                 UpdateSoulLevel();
@@ -943,9 +925,9 @@ namespace DS2_META
             }
         }
 
-#endregion
+        #endregion
 
-#region Items
+        #region Items
         public void GetItem(int item, short amount, byte upgrade, byte infusion)
         {
             if (Properties.Settings.Default.SilentItemGive)
@@ -956,8 +938,8 @@ namespace DS2_META
 
         private void GiveItem(int item, short amount, byte upgrade, byte infusion)
         {
-            GiveItemSilently(item, amount, upgrade, infusion);
-            return;
+            //GiveItemSilently(item, amount, upgrade, infusion);
+            //return;
 
             var itemStruct = Allocate(0x8A);
             Kernel32.WriteBytes(Handle, itemStruct + 0x4, BitConverter.GetBytes(item));
@@ -966,7 +948,7 @@ namespace DS2_META
             Kernel32.WriteByte(Handle, itemStruct + 0xE, upgrade);
             Kernel32.WriteByte(Handle, itemStruct + 0xF, infusion);
 
-            var asm = string.Format(Properties.Resources.GiveItemWithMenu, itemStruct.ToString("X2"), AvailableItemBag.Resolve().ToString("X2"), ItemGiveFunc.Resolve().ToString("X2"), ItemStruct2dDisplay.Resolve().ToString("X2"), 
+            var asm = string.Format(Properties.Resources.GiveItemWithMenu, itemStruct.ToString("X2"), AvailableItemBag.Resolve().ToString("X2"), ItemGiveFunc.Resolve().ToString("X2"), ItemStruct2dDisplay.Resolve().ToString("X2"),
                 ItemGiveWindow.Resolve().ToString("X2"), DisplayItem.Resolve().ToString("X2"), (PointerArray.Resolve() + (int)DS2Offsets.PointerArrayOffset4).ToString("X2"));
             AsmExecute(asm);
             Free(itemStruct);
@@ -985,9 +967,9 @@ namespace DS2_META
             AsmExecute(asm);
             Free(itemStruct);
         }
-#endregion
+        #endregion
 
-#region Params
+        #region Params
 
         private static Dictionary<int, int> WeaponParamOffsetDict;
         private static Dictionary<int, int> WeaponReinforceParamOffsetDict;
@@ -1064,7 +1046,7 @@ namespace DS2_META
 
             return 0;
         }
-        
+
         private int GetHeldInInventory(int id)
         {
             var inventorySlot = 0x18;
@@ -1119,7 +1101,7 @@ namespace DS2_META
         }
         private int GetArmorMaxUpgrade(int id)
         {
-            if  (!Setup) return 0;
+            if (!Setup) return 0;
             return ArmorReinforceParam.ReadInt32(ArmorReinforceParamOffsetDict[id - 10000000] + (int)DS2Offsets.ArmorReinforceParam.MaxUpgrade);
         }
         private int GetWeaponMaxUpgrade(int id)
@@ -1164,12 +1146,12 @@ namespace DS2_META
             return (bitField & 4) != 0;
         }
 
-#endregion
+        #endregion
 
-#region Bonfires
+        #region Bonfires
         public byte FireKeepersDwelling
         {
-            get 
+            get
             {
                 byte level = 0;
 
@@ -2870,16 +2852,16 @@ namespace DS2_META
                 var currentLevel = BonfireLevels.ReadByte((int)bonfire);
 
                 if (bonfire == DS2Offsets.BonfireLevels.FireKeepersDwelling)
-                        continue;
+                    continue;
 
                 if (currentLevel == 0)
                     BonfireLevels.WriteByte((int)bonfire, 1);
             }
         }
 
-#endregion
+        #endregion
 
-#region Internal
+        #region Internal
 
         public string Head
         {
@@ -3439,7 +3421,7 @@ namespace DS2_META
             }
         }
 
-#endregion
+        #endregion
 
     }
 }

@@ -176,6 +176,7 @@ namespace DS2_META
         {
             Version = "Not Hooked";
             Setup = false;
+            SpeedhackDllPtr = IntPtr.Zero;
         }
 
         private int GetRelativeOffset(IntPtr source, IntPtr dest)
@@ -654,26 +655,25 @@ namespace DS2_META
 
         public void DisableSpeedhack()
         {
-            IntPtr detach = (IntPtr)(SpeedhackDllPtr.ToInt64() + DetachPtr.ToInt64());
-            Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, detach, IntPtr.Zero, 0, IntPtr.Zero);
+            if (SpeedhackDllPtr == IntPtr.Zero) return;
+            SetSpeed(1.0d);
         }
 
         private void EnableSpeedhack()
         {
-            IntPtr thread = IntPtr.Zero;
             if (SpeedhackDllPtr == IntPtr.Zero)
             {
                 SpeedhackDllPtr = InjectDLL(SpeedhackDllPath);
+                IntPtr setup = (IntPtr)(SpeedhackDllPtr.ToInt64() + SetupPtr.ToInt64());
+                IntPtr thread = Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, setup, IntPtr.Zero, 0, IntPtr.Zero);
+                Kernel32.WaitForSingleObject(thread, uint.MaxValue);
+                Kernel32.CloseHandle(thread);
             }
 
-            IntPtr setup = (IntPtr)(SpeedhackDllPtr.ToInt64() + SetupPtr.ToInt64());
-            thread = Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, setup, IntPtr.Zero, 0, IntPtr.Zero);
-            Kernel32.WaitForSingleObject(thread, uint.MaxValue);
-            Kernel32.CloseHandle(thread);
-            SetSpeed((float)Properties.Settings.Default.SpeedValue);
+            SetSpeed((double)Properties.Settings.Default.SpeedValue);
         }
 
-        public void SetSpeed(float value)
+        public void SetSpeed(double value)
         {
             IntPtr setSpeed = (IntPtr)(SpeedhackDllPtr.ToInt64() + SetSpeedPtr.ToInt64());
             IntPtr valueAddress = GetPrefferedIntPtr(sizeof(float), SpeedhackDllPtr);

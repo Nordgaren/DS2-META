@@ -176,6 +176,7 @@ namespace DS2_META
         {
             Version = "Not Hooked";
             Setup = false;
+            SpeedhackDllPtr = IntPtr.Zero;
         }
 
         private int GetRelativeOffset(IntPtr source, IntPtr dest)
@@ -654,8 +655,8 @@ namespace DS2_META
 
         public void DisableSpeedhack()
         {
-            IntPtr detach = (IntPtr)(SpeedhackDllPtr.ToInt64() + DetachPtr.ToInt64());
-            Kernel32.CreateRemoteThread(Handle, IntPtr.Zero, 0, detach, IntPtr.Zero, 0, IntPtr.Zero);
+            if (SpeedhackDllPtr == IntPtr.Zero) return;
+            SetSpeed(1);
         }
 
         private void EnableSpeedhack()

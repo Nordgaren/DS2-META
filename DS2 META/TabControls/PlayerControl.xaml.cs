@@ -266,7 +266,7 @@ namespace DS2_META
         private void nudSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (GameLoaded && Hook.Hooked)
-                Hook.SetSpeed((float)nudSpeed.Value);
+                Hook.SetSpeed((double)nudSpeed.Value);
         }
         private void nudSpeed_LostFocus(object sender, RoutedEventArgs e)
         {

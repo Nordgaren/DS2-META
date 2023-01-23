@@ -42,8 +42,6 @@ My fork of [Property Hook](https://github.com/Nordgaren/PropertyHook) by [TKGP](
 
 [SpeedhackWithExports](https://github.com/Nordgaren/SpeedhackWithExports) - My fork of [Speedhack](https://github.com/absoIute/Speedhack) by [absoIute](https://github.com/absoIute) pathced by [Stenni](https://github.com/StenniHub/)
 
-[SpeedhackWithExports] - My fork of Nordgarens fork of [Speedhack](https://github.com/absoIute/Speedhack) by [absoIute](https://github.com/absoIute)
-
 # Change Log 
 ### Beta 0.4  
 

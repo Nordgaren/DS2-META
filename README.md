@@ -30,7 +30,7 @@ A
 **[pseudostripy](https://github.com/pseudostripy)** Tester and contributor   
 
 ## Libraries  
-Nordgarens fork of [Property Hook](https://github.com/Nordgaren/PropertyHook) by [TKGP](https://github.com/JKAnderson/)  
+My fork of [Property Hook](https://github.com/Nordgaren/PropertyHook) by [TKGP](https://github.com/JKAnderson/)
 
 [Costura](https://github.com/Fody/Costura) by [Fody](https://github.com/Fody) team  
 
@@ -40,7 +40,9 @@ Nordgarens fork of [Property Hook](https://github.com/Nordgaren/PropertyHook) by
 
 [Fasm.NET](https://github.com/JamesMenetrey/Fasm.NET) by [James Menetrey](https://github.com/JamesMenetrey)  
 
-[SpeedhackWithExports](https://github.com/StenniHub/SpeedhackWithExports) - My fork of Nordgarens fork of [Speedhack](https://github.com/absoIute/Speedhack) by [absoIute](https://github.com/absoIute)
+[SpeedhackWithExports](https://github.com/Nordgaren/SpeedhackWithExports) - My fork of [Speedhack](https://github.com/absoIute/Speedhack) by [absoIute](https://github.com/absoIute) pathced by [Stenni](https://github.com/StenniHub/)
+
+[SpeedhackWithExports] - My fork of Nordgarens fork of [Speedhack](https://github.com/absoIute/Speedhack) by [absoIute](https://github.com/absoIute)
 
 # Change Log 
 ### Beta 0.4  
